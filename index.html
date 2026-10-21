@@ -1,0 +1,2259 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Harvest Team Hub</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style id="hub-css">
+/* Layout: a run-sheet app. Dark brand band on top, one reading column, roles as station cards,
+   each SOP phase carries its own colour so Setup / Live / Shutdown read the same on every page.
+   BRAND: swap --brand, --brand-ink, --wheat and the fonts below once Harvest brand assets arrive. */
+:root{
+  --bg:#F2F4F6; --surface:#FFFFFF; --sunk:#E8EBEF; --ink:#16202B; --muted:#5A6573; --line:#D7DCE2;
+  --brand:#1A2836; --brand-ink:#F4F1E8; --brand-muted:#A9B4C0;
+  --wheat:#C8921A; --wheat-soft:#F7ECD2; --wheat-ink:#6E4E08;
+  --ph-pre:#B4532A; --ph-pre-soft:#F8E6DC;
+  --ph-live:#23794A; --ph-live-soft:#DDF0E4;
+  --ph-down:#43598C; --ph-down-soft:#E1E7F4;
+  --focus:#2563EB;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F151B; --surface:#172029; --sunk:#111920; --ink:#E7ECF1; --muted:#97A3B0; --line:#29343F;
+  --brand:#0A1016; --brand-ink:#F4F1E8; --brand-muted:#8C98A5;
+  --wheat:#E3B341; --wheat-soft:#33280F; --wheat-ink:#F0CF7E;
+  --ph-pre:#E58B62; --ph-pre-soft:#3A2219;
+  --ph-live:#5CC48A; --ph-live-soft:#163222;
+  --ph-down:#8FA6DD; --ph-down-soft:#1C2540;
+  --focus:#7AA7FF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F151B; --surface:#172029; --sunk:#111920; --ink:#E7ECF1; --muted:#97A3B0; --line:#29343F;
+  --brand:#0A1016; --brand-ink:#F4F1E8; --brand-muted:#8C98A5;
+  --wheat:#E3B341; --wheat-soft:#33280F; --wheat-ink:#F0CF7E;
+  --ph-pre:#E58B62; --ph-pre-soft:#3A2219;
+  --ph-live:#5CC48A; --ph-live-soft:#163222;
+  --ph-down:#8FA6DD; --ph-down-soft:#1C2540;
+  --focus:#7AA7FF; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--brand)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--brand);color:var(--brand-ink)}
+.top .wrap{display:flex;align-items:center;gap:20px;padding-block:12px;flex-wrap:wrap}
+.mark{display:flex;align-items:baseline;gap:10px;text-decoration:none;cursor:pointer;background:none;border:0;padding:0}
+.mark b{font-family:var(--f-display);font-stretch:118%;font-weight:800;letter-spacing:.08em;font-size:19px;color:var(--brand-ink)}
+.mark span{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--wheat)}
+.nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;max-width:100%;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{background:none;border:0;padding:7px 11px;border-radius:7px;color:var(--brand-muted);font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer}
+.nav button:hover{color:var(--brand-ink)}
+.nav button[aria-current="true"]{background:rgba(255,255,255,.1);color:var(--brand-ink)}
+
+main{padding-block:28px 72px}
+.view{display:grid;gap:28px}
+
+/* Type */
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.12}
+h1{font-size:clamp(30px,5vw,44px);font-stretch:112%;font-weight:800;letter-spacing:-.01em}
+h2{font-size:22px;font-stretch:108%;font-weight:750}
+h3{font-size:17px;font-weight:700}
+p{margin:0}
+.lede{color:var(--muted);max-width:62ch;font-size:17px}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.code{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.stack{display:grid;gap:12px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* Chips & buttons */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.chip.sample{background:var(--wheat-soft);color:var(--wheat-ink)}
+.chip.ready{background:var(--ph-live-soft);color:var(--ph-live)}
+.chip.draft{background:var(--ph-down-soft);color:var(--ph-down)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.btn.warn{border-color:var(--ph-pre);color:var(--ph-pre)}
+.seg{display:inline-flex;background:var(--sunk);border-radius:9px;padding:3px}
+.seg button{border:0;background:none;padding:6px 12px;border-radius:7px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* Home */
+.hero{display:grid;gap:14px;padding-block:8px 4px}
+.search{position:relative;max-width:560px}
+.search input{width:100%;font:inherit;font-size:16px;padding:13px 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.results{display:grid;gap:2px;margin-top:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px;max-height:360px;overflow:auto}
+.results button{display:grid;gap:2px;text-align:left;background:none;border:0;padding:9px 10px;border-radius:7px;cursor:pointer}
+.results button:hover{background:var(--sunk)}
+.results small{color:var(--muted);font-size:12.5px}
+.team{display:grid;gap:12px}
+.team-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:8px}
+.stations{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.station{display:grid;gap:10px;align-content:start;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;cursor:pointer;min-width:0}
+.station:hover{border-color:var(--muted)}
+.station h3{font-size:19px;font-stretch:110%}
+.station p{color:var(--muted);font-size:14px}
+.meter{height:4px;border-radius:4px;background:var(--sunk);overflow:hidden;display:flex}
+.meter i{display:block;height:100%}
+.pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.page-link{display:grid;gap:4px;text-align:left;background:none;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer}
+.page-link:hover{background:var(--surface)}
+.page-link span{color:var(--muted);font-size:14px}
+.feed{display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.feed button{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:12px 16px;cursor:pointer}
+.feed button:first-child{border-top:0}
+.feed .code{font-size:12.5px;color:var(--muted);padding-top:2px}
+
+/* Role page */
+.role-head{display:grid;gap:10px}
+.crumb{background:none;border:0;padding:0;color:var(--muted);font-size:14px;cursor:pointer;justify-self:start}
+.crumb:hover{color:var(--ink)}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;font-weight:600;font-size:15px;color:var(--muted);cursor:pointer;white-space:nowrap;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--wheat)}
+.tabs .n{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);margin-left:5px}
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.overview{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:8px}
+.overview p{max-width:68ch}
+.notice{border:1px dashed var(--wheat);background:var(--wheat-soft);color:var(--wheat-ink);border-radius:var(--r);padding:12px 16px;font-size:14.5px}
+
+.phase{display:grid;gap:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.phase-head{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--ph-soft);flex-wrap:wrap}
+.phase-head h2{font-size:18px;color:var(--ph)}
+.phase-head .code{font-size:12.5px;color:var(--ph);margin-left:auto}
+.phase-head .bar{flex-basis:100%;height:3px;background:color-mix(in srgb,var(--ph) 18%,transparent);border-radius:3px;overflow:hidden}
+.phase-head .bar i{display:block;height:100%;background:var(--ph);transition:width .25s}
+.pre{--ph:var(--ph-pre);--ph-soft:var(--ph-pre-soft)}
+.live{--ph:var(--ph-live);--ph-soft:var(--ph-live-soft)}
+.down{--ph:var(--ph-down);--ph-soft:var(--ph-down-soft)}
+.prep{--ph:var(--wheat-ink);--ph-soft:var(--wheat-soft)}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.rule-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:8px;align-content:start}
+.rule-card ul{margin:0;padding-left:1.2em;display:grid;gap:5px}
+.rule-card.dont{border-color:color-mix(in srgb,var(--ph-pre) 45%,var(--line))}
+.rule-card.dont .label{color:var(--ph-pre)}
+
+.task{border-top:1px solid var(--line)}
+.task:first-of-type{border-top:0}
+.task-row{display:grid;grid-template-columns:auto auto 1fr auto;gap:12px;align-items:center;padding:11px 16px}
+.tick{appearance:none;width:24px;height:24px;border:2px solid var(--line);border-radius:6px;margin:0;cursor:pointer;display:grid;place-items:center;background:var(--surface)}
+.tick:checked{background:var(--ph);border-color:var(--ph)}
+.tick:checked::after{content:"";width:6px;height:11px;border:solid var(--surface);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.num{font-family:var(--f-mono);font-size:13px;color:var(--ph);min-width:2.2em}
+.task-btn{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:none;border:0;padding:0;text-align:left;cursor:pointer;min-width:0;font-weight:600;font-size:16px}
+.task.done .task-btn .t{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.by{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.chev{width:28px;height:28px;border-radius:6px;border:0;background:none;cursor:pointer;color:var(--muted);display:grid;place-items:center}
+.chev svg{transition:transform .2s}
+.task.open .chev svg{transform:rotate(180deg)}
+.detail{padding:2px 16px 16px calc(16px + 24px + 12px + 2.2em + 12px);display:grid;gap:12px}
+.detail ol,.detail ul{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.detail li{padding-left:2px}
+.detail li ul{margin-top:4px;gap:3px}
+.detail li ul li{color:var(--muted);font-size:15px}
+.note{display:block;margin-top:4px;font-size:14.5px;color:var(--wheat-ink);background:var(--wheat-soft);border-radius:6px;padding:5px 9px}
+.note b{font-weight:700}
+.vid{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.vid .btn svg{flex:none}
+.changed{font-size:13.5px;color:var(--ph-down)}
+.changed button{background:none;border:0;padding:0;color:inherit;text-decoration:underline;cursor:pointer;font-size:inherit}
+
+.empty{display:grid;gap:12px;background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:20px}
+.empty ol{margin:0;padding-left:1.3em;display:grid;gap:6px;max-width:64ch}
+
+.kb{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.bucket{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:10px;align-content:start}
+.bucket p{font-size:14px;color:var(--muted)}
+.res{display:grid;gap:2px;text-decoration:none;padding:8px 10px;margin-inline:-10px;border-radius:7px}
+.res:hover{background:var(--sunk)}
+.res small{color:var(--muted)}
+
+.fix{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.fix-btn{width:100%;display:flex;gap:12px;align-items:center;background:none;border:0;padding:14px 16px;text-align:left;cursor:pointer;font-weight:650;font-size:16px}
+.fix-btn .chev{margin-left:auto}
+.fix.open .chev svg{transform:rotate(180deg)}
+.fix-body{padding:0 16px 16px;display:grid;gap:12px}
+.fix-body ol,.fix-body ul{margin:0;padding-left:1.3em;display:grid;gap:5px}
+.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+.update{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:12px}
+.update ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+
+.thanks{border-left:3px solid var(--wheat);padding:4px 0 4px 16px;display:grid;gap:6px}
+.future{display:grid;gap:8px}
+.future ul{margin:0;padding-left:1.2em;color:var(--muted)}
+
+/* Info pages */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.fact{background:var(--surface);padding:14px 16px;display:grid;gap:4px}
+.fact b{font-weight:600}
+.tbc{color:var(--wheat-ink);font-style:italic}
+.prose{display:grid;gap:12px;max-width:70ch}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:5px}
+
+/* Leaders */
+.roadmap{display:grid;gap:10px}
+.stage{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.stage .code{font-size:13px;color:var(--muted);padding-top:3px}
+.stage ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
+.stage label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px}
+.stage input{width:18px;height:18px;margin-top:3px;accent-color:var(--brand)}
+.prompt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.prompt-head{display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap}
+.prompt-head div{display:grid;gap:2px;min-width:0;flex:1}
+.prompt pre{margin:0;padding:14px 16px;background:var(--sunk);font-family:var(--f-mono);font-size:12.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;max-height:300px;overflow:auto;border-top:1px solid var(--line)}
+.qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.qr{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:grid;gap:8px;justify-items:center;text-align:center}
+.qr .code-box{background:#FFFFFF;padding:8px;border-radius:6px;line-height:0}
+.qr .code-box img,.qr .code-box canvas{width:112px;height:112px}
+.tree{font-family:var(--f-mono);font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;overflow-x:auto;white-space:pre;line-height:1.7}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;z-index:20}
+footer{border-top:1px solid var(--line);padding-block:20px;color:var(--muted);font-size:13px}
+
+@media (max-width:560px){
+  .task-row{grid-template-columns:auto 1fr auto;gap:10px}
+  .num{display:none}
+  .detail{padding-left:16px}
+  .nav{margin-left:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Interview */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.link{background:none;border:0;padding:4px 2px;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.link:hover{color:var(--ink)}
+.iv-progress{display:grid;gap:6px}
+.iv-bar,.iv-mini{display:flex;height:6px;border-radius:6px;background:var(--sunk);overflow:hidden}
+.iv-bar i,.iv-mini i{display:block;height:100%}
+.iv-bar .ok,.iv-mini .ok{background:var(--ph-live)}
+.iv-bar .sk,.iv-mini .sk{background:var(--wheat)}
+.iv-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:14px;scroll-margin-top:90px;box-shadow:0 1px 0 var(--line),0 8px 24px -16px rgba(22,32,43,.25)}
+.iv-card.done{box-shadow:none}
+.iv-q{font-size:clamp(20px,3vw,25px);font-stretch:104%;font-weight:700;line-height:1.25;max-width:40ch}
+.iv-meta{font-size:13.5px;color:var(--muted)}
+.iv-card textarea,.iv-skip input{width:100%;font:inherit;font-size:16px;line-height:1.5;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);resize:vertical}
+.iv-card textarea:focus,.iv-skip input:focus{outline:2px solid var(--focus);outline-offset:1px;border-color:transparent}
+.iv-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.iv-nav{margin-left:auto;display:flex;gap:12px}
+.iv-skip{display:grid;gap:6px;padding:12px 14px;background:var(--wheat-soft);border-radius:8px}
+.iv-skip label{font-size:14px;font-weight:600;color:var(--wheat-ink)}
+.iv-skip .row{flex-wrap:nowrap}
+.iv-skip input{flex:1;min-width:0;background:var(--surface)}
+.iv-given{display:grid;gap:4px;padding-left:12px;border-left:3px solid var(--line)}
+.iv-follow{display:grid;gap:10px;background:var(--ph-down-soft);border-radius:8px;padding:14px}
+.iv-follow .label{color:var(--ph-down)}
+.iv-follow p{font-weight:600}
+.iv-follow textarea{background:var(--surface)}
+.iv-busy{font-size:14px;color:var(--muted)}
+.iv-build{display:grid;gap:12px;scroll-margin-top:90px;padding-top:4px}
+.iv-working{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid var(--line);border-top-color:var(--ph-down);animation:spin .9s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.iv-err{color:var(--ph-pre);font-size:14.5px;font-weight:600}
+.iv-preview{display:grid;gap:14px;padding:14px;border:1px dashed var(--line);border-radius:var(--r)}
+.pv-task{padding:11px 16px 4px}
+.detail.pv{padding:2px 16px 14px}
+.iv-list{display:grid;gap:18px}
+.iv-sec{display:grid;gap:2px}
+.iv-sec .label{padding:0 0 6px}
+.iv-row{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:10px 8px;cursor:pointer;border-radius:0}
+.iv-row:hover{background:var(--surface)}
+.iv-row.cur{background:var(--surface);box-shadow:inset 3px 0 0 var(--wheat)}
+.iv-row .t{display:grid;gap:3px;min-width:0;font-size:15px}
+.iv-row small{color:var(--muted);font-size:13.5px;overflow-wrap:anywhere}
+.iv-row .dot{width:12px;height:12px;border-radius:50%;margin-top:5px;border:2px solid var(--line);background:var(--surface)}
+.iv-row.answered .dot{background:var(--ph-live);border-color:var(--ph-live)}
+.iv-row.skipped .dot{background:var(--wheat);border-color:var(--wheat)}
+.iv-summary{display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.iv-sum-row{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:12px 16px;cursor:pointer}
+.iv-sum-row:first-child{border-top:0}
+.iv-sum-row:hover{background:var(--sunk)}
+.iv-sum-meta{display:flex;gap:8px;align-items:center}
+.iv-mini{grid-column:1/-1;height:4px}
+@media (max-width:560px){ .iv-nav{margin-left:0;width:100%} .iv-skip .row{flex-wrap:wrap} .iv-card{padding:16px} }
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+/* Access */
+.team-add{margin-left:auto}
+.field-label{font-size:14px;font-weight:600}
+.add-role input,.add-role select,.field-row input{width:100%;font:inherit;font-size:16px;padding:11px 13px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.field-row{flex-wrap:nowrap}
+.field-row input{flex:1;min-width:0}
+.acc-list{display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.acc-row{display:grid;gap:10px;padding:14px 16px;border-top:1px solid var(--line)}
+.acc-row:first-child{border-top:0}
+.acc-row.req{background:var(--wheat-soft)}
+.notice.ok{border-color:var(--ph-live);background:var(--ph-live-soft);color:var(--ph-live)}
+.acc-who{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.acc-boxes{display:flex;gap:8px 16px;flex-wrap:wrap}
+.acc-box{display:flex;gap:8px;align-items:center;font-size:15px;cursor:pointer}
+.acc-box input{width:18px;height:18px;accent-color:var(--brand);margin:0}
+@media (max-width:560px){ .field-row{flex-wrap:wrap} }
+</style>
+
+<div id="root"></div>
+
+<script type="application/json" id="hub-data">{
+ "church": "Harvest Church",
+ "shareBase": "https://team.harvestchurch.org.au/",
+ "lastUpdated": "2026-10-21",
+ "values": "We serve so that nothing distracts from people meeting Jesus.",
+ "teams": [
+  {
+   "id": "video",
+   "name": "Video & Screens",
+   "nav": "Video",
+   "blurb": "Livestream, switching and cameras."
+  },
+  {
+   "id": "production",
+   "name": "Production",
+   "nav": "Production",
+   "blurb": "Sound, lighting and screens: mixing the room and stream, lighting the stage and running ProPresenter."
+  },
+  {
+   "id": "worship",
+   "name": "Worship Team",
+   "nav": "Worship",
+   "blurb": "Musicians and vocalists leading the church in worship."
+  },
+  {
+   "id": "kids",
+   "name": "Harvest Kids",
+   "nav": "Kids",
+   "blurb": "Kids ministry: check-in, programs and keeping every child safe."
+  }
+ ],
+ "roles": [
+  {
+   "id": "switcher",
+   "team": "video",
+   "name": "Switcher & Livestream",
+   "short": "Cut the service and get it online. One person, one desk.",
+   "interview": "interview-switcher",
+   "status": "draft",
+   "reviewed": "2026-10-20",
+   "overview": "The Switcher & Livestream operator runs the ATEM switcher and the YouTube livestream from one desk. During the week you check who is on cameras. On Sunday you arrive by 9:00 to set up and rehearse, go live at 10:15, call the shots to the camera team on headsets and cut the service, then save everything, update YouTube and shut down. A win is a stream confirmed live in YouTube Studio before the service, cuts that follow the worship and the preacher, and a recording saved in vMix every week.",
+   "phases": {
+    "prep": [
+     {
+      "title": "Check who is on cameras",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Open the Services app in Planning Center and check who is rostered on cameras this Sunday.",
+       "Check in with the team during the week so everyone knows they're on."
+      ]
+     }
+    ],
+    "pre": [
+     {
+      "title": "Arrive and power up",
+      "by": "9:00",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "Arrive by 9:00."
+       },
+       {
+        "t": "Make sure the console power is on.",
+        "sub": [
+         "The Sound operator switches on the power for the whole console.",
+         "The ATEM Television Studio HD8 comes on with the console power."
+        ]
+       },
+       {
+        "t": "Turn on the computer."
+       },
+       {
+        "t": "Turn on the cameras."
+       },
+       {
+        "t": "Open ATEM Software Control (Blackmagic) and vMix."
+       }
+      ]
+     },
+     {
+      "title": "Restore the ATEM setup file",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "In ATEM Software Control, go to File > Restore."
+       },
+       {
+        "t": "Select the setup file. It is the only file in the folder.",
+        "sub": [
+         "File name: to be confirmed."
+        ],
+        "note": "The setup file holds the input mapping, so nothing needs remapping."
+       }
+      ]
+     },
+     {
+      "title": "Check every camera is live",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       {
+        "t": "The buttons on the HD8 are labelled. You switch using these buttons.",
+        "sub": [
+         "Front: main central camera",
+         "Back: left back angle, about 20 degrees",
+         "Roaming: the handheld camera",
+         "Drum cam: fixed",
+         "Keys cam: fixed"
+        ]
+       },
+       "On the ATEM multiview monitor, check every camera is showing a picture.",
+       {
+        "t": "In the vMix multiview, check the ATEM feed and the ProPresenter feed are both showing.",
+        "sub": [
+         "The ATEM comes into vMix over HDMI.",
+         "ProPresenter lyrics and overlays come into vMix over NDI with a transparent background, so they sit over the ATEM picture."
+        ]
+       },
+       {
+        "t": "If a camera is black, check its power and cables, then the cables at the ATEM. For Roaming, check the battery.",
+        "note": "See the troubleshooting guide: Camera is black on the multiview."
+       }
+      ]
+     },
+     {
+      "title": "Baptism Sundays: set up the tank camera",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "An extra NDI camera is mounted, focused on the baptism tank.",
+       "The camera team and the Switcher set it up together.",
+       "It comes into the ATEM through an NDI to SDI converter, so it is on the HD8 like the other cameras.",
+       "ProPresenter can also take it directly for the room screens."
+      ]
+     },
+     {
+      "title": "Rehearse",
+      "by": "9:45",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Rehearsal runs from 9:00 to 9:45.",
+       "Rehearse camera shots and timing with the camera operators.",
+       "Use the time for testing."
+      ]
+     },
+     {
+      "title": "Pre-service check-ins",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Camera operators: in place and ready to roll.",
+       {
+        "t": "Headsets: check every camera operator can hear you.",
+        "sub": [
+         "You call the cues during the service."
+        ]
+       },
+       {
+        "t": "Sound: check the stream audio is coming through. Listen on headphones.",
+        "sub": [
+         "Stream audio comes straight from the sound desk over Dante.",
+         "The Sound operator checks the levels. You listen on headphones as well."
+        ]
+       },
+       {
+        "t": "ProPresenter: check all the overlays are coming through in vMix.",
+        "sub": [
+         "The ProPresenter operator fires lyrics, lower thirds and overlays. The overlay channel in vMix stays on, so you don't need to do anything."
+        ]
+       }
+      ]
+     },
+     {
+      "title": "Go live and confirm on YouTube",
+      "by": "10:15",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "ProPresenter sends the welcome loop."
+       },
+       {
+        "t": "In vMix, click Stream.",
+        "sub": [
+         "We use the same stream key every week, so there's nothing to set up in YouTube first.",
+         "Stream settings are saved: 1080p, 30fps, 6500 kbps. Don't change them."
+        ]
+       },
+       {
+        "t": "On the same computer, open YouTube Studio and look for the live signal.",
+        "note": "This is the most important check of the day. Don't trust vMix alone. Confirm in YouTube Studio that the stream is live before the service starts."
+       }
+      ]
+     }
+    ],
+    "live": [
+     {
+      "title": "Countdown",
+      "by": "10:27",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "At 10:27 ProPresenter plays the countdown (ramp-up) video over the top."
+       },
+       {
+        "t": "Nothing to do while it plays. When ProPresenter clears it, your ATEM picture shows."
+       },
+       {
+        "t": "Have Front ready: medium close-up on the worship leader."
+       }
+      ]
+     },
+     {
+      "title": "Start recording",
+      "by": "10:30",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "At 10:30, click Record in vMix.",
+        "note": "Record every week. This is the step people forget."
+       }
+      ]
+     },
+     {
+      "title": "Opening shot",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "Hold Front on the worship leader, medium close-up, for 5 to 10 seconds."
+       },
+       {
+        "t": "Then move across to a wide shot or an instrument shot."
+       }
+      ]
+     },
+     {
+      "title": "Worship switching",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Cut every few seconds.",
+       "Cuts only. No fades or other transitions.",
+       "Feature instruments when they are soloing or prominent (Drum cam, Keys cam).",
+       "Use every camera, multiple times, with multiple shots from each. Call the shots to the camera operators on headsets."
+      ]
+     },
+     {
+      "title": "Sermon switching",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Use Front and Back.",
+       "Each shot stays up for at least 10 seconds and no longer than 45 seconds.",
+       {
+        "t": "Use Roaming occasionally.",
+        "sub": [
+         "Roaming shoots from the back, with a slight sideways move across the congregation's heads towards the preacher."
+        ]
+       }
+      ]
+     },
+     {
+      "title": "Videos and announcements",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "ProPresenter plays bumper and announcement videos full screen over the top in vMix.",
+       {
+        "t": "You don't need to do anything.",
+        "note": "If you have turned off the overlay channel in vMix, the videos won't show. Select it again."
+       }
+      ]
+     },
+     {
+      "title": "Baptisms and altar calls",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Baptisms: you have two options, the tank camera and Roaming.",
+       "Altar calls: try not to film people being prayed for.",
+       {
+        "t": "Extended altar call: end the livestream.",
+        "note": "This is the only time we stop the stream during the service."
+       }
+      ]
+     },
+     {
+      "title": "Keep an eye on the stream",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Listen to the stream audio on headphones.",
+       "Watch vMix for any errors.",
+       "Check the stream health (stream quality) indicator in YouTube Studio.",
+       "To kill the ProPresenter graphics, deselect the overlay channel in vMix."
+      ]
+     }
+    ],
+    "down": [
+     {
+      "title": "End the stream",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "After the blessing, click the closing slide in the vMix inputs so it goes to the livestream.",
+        "sub": [
+         "How long the closing slide stays up: to be confirmed."
+        ]
+       },
+       {
+        "t": "Stop recording in vMix."
+       },
+       {
+        "t": "Stop streaming in vMix."
+       }
+      ]
+     },
+     {
+      "title": "Update the YouTube title and description",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "In YouTube Studio, open the live stream and choose edit title and description."
+       },
+       {
+        "t": "Add the sermon title and the speaker.",
+        "sub": [
+         "Post-production is handled separately. YouTube takes about 12 to 24 hours before the stream is ready for it."
+        ]
+       }
+      ]
+     },
+     {
+      "title": "Save and power down",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "Save the ATEM file before closing.",
+        "note": "Always save the ATEM file before you close ATEM Software Control."
+       },
+       {
+        "t": "Close vMix and ATEM Software Control."
+       },
+       {
+        "t": "Turn off the cameras."
+       },
+       {
+        "t": "Shut down the computer."
+       },
+       {
+        "t": "Put the Roaming camera battery on charge."
+       },
+       {
+        "t": "The Sound operator turns off the console power, which also turns off the HD8."
+       }
+      ]
+     }
+    ]
+   },
+   "kb": [
+    {
+     "bucket": "Foundations",
+     "about": "How cameras, graphics and sound reach the switcher and the stream.",
+     "items": []
+    },
+    {
+     "bucket": "Switching style",
+     "about": "When to cut, when to hold, and how we switch at Harvest.",
+     "items": []
+    },
+    {
+     "bucket": "Streaming",
+     "about": "Encoder settings, bitrate, stream audio and going live.",
+     "items": []
+    },
+    {
+     "bucket": "Common issues",
+     "about": "Lost signals, dropped streams and how to recover.",
+     "items": []
+    }
+   ],
+   "fixes": [
+    {
+     "title": "Camera is black on the multiview",
+     "when": "Use this when one of the cameras shows black on the ATEM or vMix multiview.",
+     "steps": [
+      "Check the camera is powered on.",
+      "Check the cables at the camera.",
+      "Check the cables at the ATEM end.",
+      "If it's Roaming, check the camera battery."
+     ],
+     "stuck": [
+      "Call the Team Leader."
+     ],
+     "video": null
+    },
+    {
+     "title": "Internet is down",
+     "when": "Use this when the internet drops and the stream can't go out.",
+     "steps": [
+      "There is no backup internet, so don't try to switch connections.",
+      "Make sure vMix is recording. If it isn't, click Record.",
+      "Carry on switching the service so the recording is complete."
+     ],
+     "stuck": [
+      "Call the Team Leader."
+     ],
+     "video": null
+    }
+   ],
+   "updates": [],
+   "rules": [
+    "Don't load a new setup file mid-service.",
+    "Don't try an untested transition. We use cuts only.",
+    "Don't update ATEM, vMix or computer software on a Sunday.",
+    "Don't change the stream settings or bitrate mid-stream.",
+    "Don't stop streaming in vMix during the service, except for an extended altar call.",
+    "Don't assume the stream is live without checking YouTube Studio.",
+    "Don't film people being prayed for at altar calls."
+   ],
+   "handoff": [
+    "The HD8 buttons are labelled, and the input mapping loads from the setup file.",
+    "Setup file: ATEM Software Control, File > Restore. It's the only file in the folder.",
+    "10:15: click Stream in vMix, then confirm it's live in YouTube Studio. 10:30: click Record.",
+    "No logins needed. YouTube Studio and vMix are already set up on the computer.",
+    "No backup internet. If it drops, keep recording in vMix.",
+    "The camera roster is in the Planning Center Services app.",
+    "Anything else: call the Team Leader."
+   ],
+   "files": [],
+   "future": [
+    "Name of the ATEM setup file",
+    "How long the closing slide stays up before stopping the stream",
+    "A Stream Deck for the switcher desk",
+    "Streaming to more platforms than YouTube",
+    "A better stream audio mix (it currently comes straight from the sound desk over Dante and needs remixing)",
+    "An online host for the YouTube chat",
+    "Backup internet",
+    "Tutorial videos for each task"
+   ],
+   "thanks": "Thank you for serving on Switcher & Livestream. You're the reason people at home, in hospital or away for the weekend can still be part of Sunday at Harvest."
+  },
+  {
+   "id": "cameras",
+   "team": "video",
+   "name": "Cameras",
+   "short": "Our two fixed cameras: matched, focused and framed.",
+   "status": "todo",
+   "phases": null,
+   "interview": "interview-cameras",
+   "kb": [
+    {
+     "bucket": "Foundations",
+     "about": "Camera positions and what each one is for.",
+     "items": []
+    },
+    {
+     "bucket": "Core concepts",
+     "about": "Exposure, white balance, focus, headroom and lead room.",
+     "items": []
+    },
+    {
+     "bucket": "Matching cameras",
+     "about": "Making every camera look the same when we cut between them.",
+     "items": []
+    },
+    {
+     "bucket": "Deep dive",
+     "about": "For volunteers who want to grow further.",
+     "items": []
+    }
+   ],
+   "fixes": [],
+   "updates": [],
+   "files": [],
+   "future": []
+  },
+  {
+   "id": "mobile",
+   "team": "video",
+   "name": "Mobile Camera",
+   "short": "The handheld camera: close-ups, crowd and special moments.",
+   "status": "todo",
+   "phases": null,
+   "interview": "interview-mobile",
+   "kb": [
+    {
+     "bucket": "Foundations",
+     "about": "The rig and how it reaches the switcher.",
+     "items": []
+    },
+    {
+     "bucket": "Handheld technique",
+     "about": "Holding steady without a gimbal: grip, stance, walking and resting.",
+     "items": []
+    },
+    {
+     "bucket": "Shot types",
+     "about": "Close-ups, pull-backs, crowd, musicians and special moments.",
+     "items": []
+    },
+    {
+     "bucket": "Deep dive",
+     "about": "For volunteers who want to grow further.",
+     "items": []
+    }
+   ],
+   "fixes": [],
+   "updates": [],
+   "files": [],
+   "future": []
+  },
+  {
+   "id": "sound",
+   "team": "production",
+   "name": "Sound",
+   "short": "Mix the room and the stream so every word is heard.",
+   "interview": "interview-sound",
+   "status": "sample",
+   "reviewed": "2026-10-20",
+   "overview": "The sound operator makes sure everyone in the room and online can clearly hear every word spoken and sung. You arrive before rehearsal to power up and line check, mix the band and speakers through the service, and shut the system down safely afterwards. A win on Sunday is a service where nobody notices the sound because it simply works.",
+   "phases": {
+    "pre": [
+     {
+      "title": "Power up the system",
+      "by": "",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "Switch on main power for the desk and stage boxes."
+       },
+       {
+        "t": "Turn on the mixing desk and the playback computer.",
+        "sub": [
+         "Wait for the desk to fully load its show file before touching faders."
+        ]
+       },
+       {
+        "t": "Turn on amps and powered speakers last.",
+        "note": "Speakers go on last and off first, so they never pop."
+       }
+      ]
+     },
+     {
+      "title": "Check batteries and wireless mics",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Put charged batteries in every handheld and headset mic.",
+       "Confirm each receiver shows signal and battery level.",
+       {
+        "t": "Swap any battery showing two bars or less.",
+        "note": "Low batteries rarely die in rehearsal. They die in the sermon."
+       }
+      ]
+     },
+     {
+      "title": "Line check every input",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "Ask each musician and vocalist to play or speak one at a time."
+       },
+       {
+        "t": "Confirm the signal lands on the correct channel and the label matches."
+       },
+       {
+        "t": "Note anything missing and fix it before rehearsal starts."
+       }
+      ]
+     },
+     {
+      "title": "Set gain",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "Have the person sing or play at their loudest normal level."
+       },
+       {
+        "t": "Raise the gain until the meter sits healthily without reaching the red.",
+        "note": "Set gain at rehearsal volume, not soundcheck politeness. People always get louder."
+       }
+      ]
+     },
+     {
+      "title": "Rehearsal mix and monitors",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Build a rough front-of-house mix while the band runs the set.",
+       "Check every musician is happy with what they hear before rehearsal ends.",
+       "Save the scene once rehearsal is done."
+      ]
+     }
+    ],
+    "live": [
+     {
+      "title": "Before the countdown",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Walk-in music playing at a comfortable level.",
+       "Host and pastor mics on, checked and muted until needed.",
+       "Band channels ready for the opening song."
+      ]
+     },
+     {
+      "title": "Quick mixing reminders",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Vocals sit on top of the band. Words matter most.",
+       "Watch the stage, not just the desk. Unmute before someone speaks, not after.",
+       {
+        "t": "Keep an eye on the stream mix as well as the room.",
+        "note": "The room is loud. The stream only hears the desk."
+       }
+      ]
+     },
+     {
+      "title": "Hand-overs between service moments",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "Worship to host: bring up the host mic as the last song ends."
+       },
+       {
+        "t": "Host to sermon: bring up the pastor's mic and pull down band channels."
+       },
+       {
+        "t": "Sermon to response: bring the band back in gently as they start."
+       }
+      ]
+     }
+    ],
+    "down": [
+     {
+      "title": "Power down in order",
+      "ordered": true,
+      "video": null,
+      "steps": [
+       {
+        "t": "Turn off amps and powered speakers first."
+       },
+       {
+        "t": "Shut down the playback computer and the desk."
+       },
+       {
+        "t": "Switch off main power last.",
+        "note": "This is the start-up order in reverse."
+       }
+      ]
+     },
+     {
+      "title": "Pack away mics and batteries",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Return every wireless mic to its home.",
+       "Put used batteries on charge.",
+       "Coil cables over-under and put them away."
+      ]
+     },
+     {
+      "title": "Report anything that went wrong",
+      "ordered": false,
+      "video": null,
+      "steps": [
+       "Tell your team leader about any issue before you leave.",
+       "If you fixed something new, record a quick phone video of how, so it can become a troubleshooting guide."
+      ]
+     }
+    ]
+   },
+   "kb": [
+    {
+     "bucket": "Foundations",
+     "about": "What this role is and how our system fits together.",
+     "items": []
+    },
+    {
+     "bucket": "Core concepts",
+     "about": "Gain staging, EQ, compression, low-cut filters.",
+     "items": []
+    },
+    {
+     "bucket": "Our setup",
+     "about": "Our desk, our patch, our way of mixing.",
+     "items": []
+    },
+    {
+     "bucket": "Deep dive",
+     "about": "For volunteers who want to grow further.",
+     "items": []
+    }
+   ],
+   "fixes": [
+    {
+     "title": "Wireless mic has no sound",
+     "when": "Use this when a wireless mic is switched on but nothing comes through the speakers.",
+     "steps": [
+      "Check the mute switch on the mic itself.",
+      "Check the battery level on the mic and the receiver.",
+      "Make sure the receiver shows a signal.",
+      "Check the channel is unmuted and the fader is up on the desk.",
+      "Swap to the backup mic and sort the first one after the service."
+     ],
+     "stuck": [
+      "Hand the speaker a wired mic.",
+      "Grab the Media team leader."
+     ],
+     "video": null
+    }
+   ],
+   "updates": [
+    {
+     "id": "sound-2026-sample",
+     "date": "2026-10-20",
+     "title": "Sample update to show the format",
+     "big": "In short, this is how a change will look when we make one. Most of what you do stays the same.",
+     "same": [
+      "Start-up and shut-down order",
+      "How you set gain"
+     ],
+     "different": [
+      "Updates will appear here with a short video explaining why"
+     ],
+     "starts": "This starts next Sunday."
+    }
+   ],
+   "rules": [
+    "Don't power speakers on before the desk, or off after it.",
+    "Don't save over the master show file during a service."
+   ],
+   "handoff": [
+    "Which show file to load",
+    "Start-up and shut-down order (above)",
+    "Who to call: the Media team leader"
+   ],
+   "files": [],
+   "future": [
+    "Photos of the desk and stage boxes so new volunteers know what they are looking for"
+   ],
+   "thanks": "Thank you for serving on sound. When it goes well nobody notices, but we do. You help hundreds of people hear the message clearly every week."
+  },
+  {
+   "id": "lighting",
+   "team": "production",
+   "name": "Lighting",
+   "short": "Set the room for worship and the word.",
+   "status": "todo",
+   "phases": null,
+   "kb": [
+    {
+     "bucket": "Foundations",
+     "about": "Our lights and what each scene is for.",
+     "items": []
+    },
+    {
+     "bucket": "Core concepts",
+     "about": "Scenes, cues and lighting for camera.",
+     "items": []
+    }
+   ],
+   "fixes": [],
+   "updates": [],
+   "files": [],
+   "future": []
+  },
+  {
+   "id": "propresenter",
+   "team": "production",
+   "name": "ProPresenter",
+   "short": "Lyrics, sermon slides and screens.",
+   "status": "todo",
+   "phases": null,
+   "interview": "interview-pp",
+   "kb": [
+    {
+     "bucket": "Foundations",
+     "about": "What the role is and how our screens are set up.",
+     "items": []
+    },
+    {
+     "bucket": "Importing & formatting",
+     "about": "Songs, sermon notes, announcements.",
+     "items": []
+    },
+    {
+     "bucket": "Stage screens",
+     "about": "What the band and speaker see.",
+     "items": []
+    },
+    {
+     "bucket": "Our workflow",
+     "about": "How we build each week's presentation.",
+     "items": []
+    }
+   ],
+   "fixes": [],
+   "updates": [],
+   "files": [],
+   "future": []
+  },
+  {
+   "id": "band",
+   "team": "worship",
+   "name": "Band",
+   "short": "Musicians: rehearsal to final song.",
+   "status": "todo",
+   "phases": null,
+   "kb": [
+    {
+     "bucket": "Foundations",
+     "about": "What we expect from musicians each week.",
+     "items": []
+    },
+    {
+     "bucket": "Charts & keys",
+     "about": "Where charts live and how we use them.",
+     "items": []
+    },
+    {
+     "bucket": "In-ears & monitoring",
+     "about": "Getting a mix you can play to.",
+     "items": []
+    }
+   ],
+   "fixes": [],
+   "updates": [],
+   "files": [],
+   "future": []
+  },
+  {
+   "id": "vocals",
+   "team": "worship",
+   "name": "Vocals",
+   "short": "Vocalists: prep, rehearsal and Sunday.",
+   "status": "todo",
+   "phases": null,
+   "kb": [
+    {
+     "bucket": "Foundations",
+     "about": "What we expect from vocalists each week.",
+     "items": []
+    },
+    {
+     "bucket": "Mic technique",
+     "about": "Distance, volume and handling.",
+     "items": []
+    },
+    {
+     "bucket": "Harmony parts",
+     "about": "Learning and singing parts.",
+     "items": []
+    }
+   ],
+   "fixes": [],
+   "updates": [],
+   "files": [],
+   "future": []
+  }
+ ],
+ "pages": [
+  {
+   "id": "startup",
+   "title": "Booth Startup & Shutdown",
+   "sub": "For midweek events: youth, small groups, meetings.",
+   "kind": "booth"
+  },
+  {
+   "id": "before",
+   "title": "Before Your First Sunday",
+   "sub": "Parking, arrival, who to find, what to wear.",
+   "kind": "before"
+  },
+  {
+   "id": "events",
+   "title": "Special Events",
+   "sub": "Baptisms, weddings, Christmas and Easter.",
+   "kind": "events"
+  },
+  {
+   "id": "join",
+   "title": "Joining the Team",
+   "sub": "How to get started on Media or Worship.",
+   "kind": "join"
+  }
+ ],
+ "before": [
+  [
+   "Arrival time",
+   "To be confirmed"
+  ],
+  [
+   "Where to park",
+   "To be confirmed"
+  ],
+  [
+   "Which door",
+   "To be confirmed"
+  ],
+  [
+   "Who to find",
+   "Your team leader for the day"
+  ],
+  [
+   "What to wear",
+   "To be confirmed"
+  ],
+  [
+   "Your schedule",
+   "Check Planning Center Services"
+  ]
+ ],
+ "events": [
+  {
+   "name": "Baptisms",
+   "note": "Setup, during and wrap-up for baptism services."
+  },
+  {
+   "name": "Weddings",
+   "note": "What media handles for weddings in the auditorium."
+  },
+  {
+   "name": "Christmas",
+   "note": "Extra services, run sheet and any special setup."
+  },
+  {
+   "name": "Easter",
+   "note": "Extra services, run sheet and any special setup."
+  }
+ ],
+ "links": [
+  {
+   "name": "Planning Center Services app",
+   "note": "Your schedule, songs and plans",
+   "url": "https://www.planningcenter.com/services"
+  }
+ ],
+ "leaderUrl": "https://claude.ai/artifact/G1HhfebrshPmCQdUrsXMA5",
+ "rev": "2026-10-21T02:40:00.000Z",
+ "siteUrl": "https://team.harvestchurch.org.au/"
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script id="hub-app">let HUB = JSON.parse(document.getElementById("hub-data").textContent);
+/* Outside claude.ai (the website copy) there is no window.claude: show the read-only volunteer view. */
+const PUBLIC_COPY = !(window.claude && typeof window.claude.use === "function");
+
+
+const PROMPTS = [];
+const ROADMAP = [];
+
+
+/* ============================================================ APP */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const PH = [["prep","Midweek Prep","0"],["pre","Pre-Service / Rehearsal","1"],["live","During Service","2"],["down","Shutdown / Wrap-Up","3"]];
+const STATUS = { sample:["Sample","sample"], draft:["Draft","draft"], ready:["Ready","ready"], todo:["Not written yet",""] };
+const ICON = {
+  chev:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  play:'<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2l9 5-9 5z" fill="currentColor"/></svg>'
+};
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+function serviceDate(){ const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() + ((7 - d.getDay()) % 7)); return d; }
+const SUNDAY = serviceDate();
+const SUNDAY_KEY = SUNDAY.toISOString().slice(0,10);
+const fmtDate = d => new Date(d).toLocaleDateString("en-AU",{weekday:"short",day:"numeric",month:"short"});
+const fmtLong = d => new Date(d + "T00:00:00").toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"});
+
+const state = { view:"home", tab:"checklist", mode: store.get("hh:mode","full"), open:new Set(), q:"" };
+const roleById = id => HUB.roles.find(r => r.id === id);
+const pageById = id => HUB.pages.find(p => p.id === id);
+const tasksOf = r => r.phases ? PH.flatMap(([k]) => (r.phases[k]||[]).map((t,i) => ({...t, phase:k, key:`${k}-${i}`}))) : [];
+const ticksKey = r => `hh:ticks:${r.id}:${SUNDAY_KEY}`;
+const getTicks = r => new Set(store.get(ticksKey(r), []));
+const setTicks = (r, s) => store.set(ticksKey(r), [...s]);
+
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => t.hidden = true, 2000); }
+function copy(text, btn){
+  const done = () => toast("Copied");
+  try{ navigator.clipboard.writeText(text).then(done, () => fallback()); }catch(e){ fallback(); }
+  function fallback(){
+    const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly",""); ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select(); let ok = false; try{ ok = document.execCommand("copy"); }catch(e){} ta.remove();
+    if(ok) return done();
+    const pre = btn.closest(".prompt")?.querySelector("pre");
+    if(pre){ const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Selected. Press copy on your device."); }
+    else toast("Couldn't copy here. Use the Leaders page to select the prompt.");
+  }
+}
+
+function go(view, opts = {}){
+  state.view = view; state.tab = opts.tab || "checklist"; state.open = new Set(opts.open ? [opts.open] : []);
+  try{ if(location.hash.slice(1) !== view) location.hash = view === "home" ? "" : view; }catch(e){}
+  render(); window.scrollTo({top:0});
+}
+
+/* ---------- Nav ---------- */
+function renderNav(){
+  const items = [["home","Home"],...HUB.teams.map(t => [t.id, t.nav || t.name.split(" ")[0]]),["more","Other pages"],["leaders","Leaders"]];
+  const cur = roleById(state.view)?.team || (pageById(state.view) ? "more" : state.view);
+  $("#nav").innerHTML = items.map(([id,l]) => `<button data-go="${id}" aria-current="${cur===id}">${l}</button>`).join("");
+}
+
+/* ---------- Home ---------- */
+function progress(r){
+  const all = tasksOf(r); if(!all.length) return "";
+  const t = getTicks(r);
+  return `<div class="meter" aria-label="${[...t].length} of ${all.length} done">${PH.map(([k]) => {
+    const ts = all.filter(x => x.phase === k); const done = ts.filter(x => t.has(x.key)).length;
+    return `<i class="${k}" style="width:${(done/all.length)*100}%;background:var(--ph)"></i>`; }).join("")}</div>`;
+}
+function stationCard(r){
+  const [label, cls] = STATUS[r.status] || STATUS.todo;
+  const n = tasksOf(r).length;
+  return `<button class="station" data-go="${r.id}">
+    <div class="row" style="justify-content:space-between"><h3>${esc(r.name)}</h3><span class="chip ${cls}">${label}</span></div>
+    <p>${esc(r.short)}</p>
+    ${n ? `<span class="code muted" style="font-size:12.5px">${n} tasks</span>${progress(r)}` : ""}
+    ${canManageRole(r) ? (() => { const st = ivStats(r); return draftPending(r) ? `<span class="chip draft" style="justify-self:start">Draft ready to publish</span>` : st.answered || st.skipped ? `<span class="code muted" style="font-size:12.5px">Interview ${st.answered} of ${st.total} answered</span>` : ""; })() : ""}
+  </button>`;
+}
+function teamBlock(t){
+  const rs = HUB.roles.filter(r => r.team === t.id);
+  return `<section class="team"><div class="team-head"><h2>${esc(t.name)}</h2><span class="muted">${esc(t.blurb)}</span>${canManageTeam(t.id) ? `<button class="link team-add" data-go="${t.id}">Manage</button>` : ""}</div>
+    ${rs.length ? `<div class="stations">${rs.map(stationCard).join("")}</div>` : `<p class="muted">No roles yet. Coming soon.</p>`}</section>`;
+}
+function viewHome(){
+  const ups = HUB.roles.flatMap(r => (r.updates||[]).map(u => ({...u, role:r}))).sort((a,b) => b.date.localeCompare(a.date)).slice(0,4);
+  return `
+  <section class="hero">
+    <span class="eyebrow">Next service · ${fmtDate(SUNDAY)}</span>
+    <h1>Serving this Sunday? Find your role.</h1>
+    <p class="lede">Every role has a checklist to scan, step-by-step detail when you need it, short videos, and fixes for common problems. Check here before you ask. That's the whole idea.</p>
+    <div class="search"><input id="q" type="search" placeholder="Search tasks and fixes, e.g. “gain” or “no sound”" value="${esc(state.q)}" autocomplete="off" aria-label="Search the hub"><div id="results"></div></div>
+  </section>
+  ${HUB.teams.map(teamBlock).join("")}
+  <section class="team"><div class="team-head"><h2>Other pages</h2></div>
+    <div class="pages">${HUB.pages.map(p => `<button class="page-link" data-go="${p.id}"><b>${esc(p.title)}</b><span>${esc(p.sub)}</span></button>`).join("")}</div></section>
+  ${ups.length ? `<section class="team"><div class="team-head"><h2>Latest updates</h2></div><div class="feed">${ups.map(u =>
+    `<button data-go="${u.role.id}" data-tab="updates"><span class="code">${fmtDate(u.date+"T00:00:00")}</span><span><b>${esc(u.title)}</b> <span class="muted">· ${esc(u.role.name)}</span></span></button>`).join("")}</div></section>` : ""}`;
+}
+function searchHits(q){
+  q = q.trim().toLowerCase(); if(q.length < 2) return [];
+  const hits = [];
+  HUB.roles.forEach(r => {
+    tasksOf(r).forEach(t => { const hay = (t.title + " " + JSON.stringify(t.steps)).toLowerCase(); if(hay.includes(q)) hits.push({label:t.title, sub:`${r.name} · Checklist`, role:r.id, tab:"checklist", open:t.key}); });
+    (r.fixes||[]).forEach((f,i) => { if((f.title+" "+f.when+" "+f.steps.join(" ")).toLowerCase().includes(q)) hits.push({label:f.title, sub:`${r.name} · Troubleshooting`, role:r.id, tab:"fixes", open:"fix-"+i}); });
+    (r.kb||[]).forEach(b => b.items.forEach(it => { if((it.title+" "+(it.note||"")).toLowerCase().includes(q)) hits.push({label:it.title, sub:`${r.name} · Tutorials`, role:r.id, tab:"kb"}); }));
+  });
+  return hits.slice(0,12);
+}
+function renderResults(){
+  const box = $("#results"); if(!box) return;
+  const hits = searchHits(state.q);
+  box.innerHTML = state.q.trim().length < 2 ? "" : hits.length
+    ? `<div class="results">${hits.map(h => `<button data-go="${h.role}" data-tab="${h.tab}" data-open="${h.open||""}"><b>${esc(h.label)}</b><small>${esc(h.sub)}</small></button>`).join("")}</div>`
+    : `<div class="results"><p class="muted" style="padding:8px 10px">Nothing yet for “${esc(state.q)}”. Ask your team leader, and it may become a new guide.</p></div>`;
+}
+
+/* ---------- Team ---------- */
+function viewTeam(t){
+  const rs = HUB.roles.filter(r => r.team === t.id);
+  return `<div class="role-head"><button class="crumb" data-go="home">← Home</button><h1>${esc(t.name)}</h1><p class="lede">${esc(t.blurb)}</p></div>
+  ${rs.length ? `<div class="stations">${rs.map(stationCard).join("")}</div>` : `<div class="empty"><h2>No roles yet</h2><p class="muted">${canManageTeam(t.id) ? "Add the first role for this area below, then run its interview." : "The roles for this area are being written."}</p></div>`}
+  ${addRoleHTML(t)}`;
+}
+
+/* ---------- Role ---------- */
+function stepHTML(s){
+  if(typeof s === "string") return `<li>${esc(s)}</li>`;
+  return `<li>${esc(s.t)}${s.sub ? `<ul>${s.sub.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}${s.note ? `<span class="note"><b>Note:</b> ${esc(s.note)}</span>` : ""}</li>`;
+}
+function videoHTML(v){
+  return v && v.url
+    ? `<div class="vid"><a class="btn" href="${esc(v.url)}" target="_blank" rel="noopener">${ICON.play} Watch the video${v.len ? ` <span class="code muted">${esc(v.len)}</span>` : ""}</a></div>`
+    : `<div class="vid"><span class="chip">Video coming</span></div>`;
+}
+function taskHTML(r, t, num, ticks){
+  const open = state.mode === "full" || state.open.has(t.key);
+  const done = ticks.has(t.key);
+  const upd = t.update ? (r.updates||[]).find(u => u.id === t.update) : null;
+  return `<div class="task ${open?"open":""} ${done?"done":""}" id="t-${t.key}">
+    <div class="task-row">
+      <input type="checkbox" class="tick" id="tick-${r.id}-${t.key}" data-tick="${t.key}" ${done?"checked":""} aria-label="Mark ${esc(t.title)} done">
+      <span class="num">${num}</span>
+      <button class="task-btn" data-toggle="${t.key}" aria-expanded="${open}"><span class="t">${esc(t.title)}</span>${t.by ? `<span class="by">by ${esc(t.by)}</span>` : ""}</button>
+      <button class="chev" data-toggle="${t.key}" aria-label="Show steps">${ICON.chev}</button>
+    </div>
+    ${open ? `<div class="detail">${t.ordered ? `<ol>${t.steps.map(stepHTML).join("")}</ol>` : `<ul>${t.steps.map(stepHTML).join("")}</ul>`}
+      ${upd ? `<p class="changed">Changed recently. <button data-tab-to="updates">See what changed</button></p>` : ""}
+      ${videoHTML(t.video)}</div>` : ""}
+  </div>`;
+}
+function checklistHTML(r){
+  if(!r.phases && PUBLIC_COPY) return `<div class="empty"><h2>This checklist is being written</h2><p class="muted">Your team leader is putting the ${esc(r.name)} checklist together. Until it's here, ask them what to do on Sunday.</p></div>`;
+  if(!r.phases) return `<div class="empty">
+    <h2>This checklist hasn't been written yet</h2>
+    <p class="muted">Here's how the ${esc(r.name)} SOP gets built:</p>
+    <ol><li>Someone who knows the role records a voice memo, talking through pre-service, during service and shutdown as if training a brand-new volunteer standing next to them.</li>
+    <li>Transcribe it (Descript, the Voice Memos transcript, or any app).</li>
+    <li>Send the transcript to Claude in the Church Checklists project with the <b>Build an SOP</b> prompt from the Leaders page.</li>
+    <li>Claude asks any clarifying questions, then the checklist appears right here.</li></ol>
+    ${canManageRole(r) ? `<p><b>Quickest:</b> answer the interview right here. Skip anything you don't know and someone else can fill it in later.</p>
+    <div class="row"><button class="btn primary" data-tab-to="interview">Start the interview here</button></div>` : ""}
+    ${r.interview ? `<p class="muted">Or skip the recording: copy the ready-made ${esc(r.name)} interview, paste it to Claude in the Church Checklists project, and Claude will ask you one question at a time.</p>
+    <div class="row"><button class="btn ${canManageRole(r) ? "" : "primary"}" data-copy="${esc(r.interview)}">Copy the ${esc(r.name)} interview</button></div>`
+    : `<p class="muted">No time to record? Use the <b>Interview me (any role)</b> prompt on the Leaders page and Claude will ask you one question at a time.</p>`}</div>`;
+  const ticks = getTicks(r);
+  const all = tasksOf(r);
+  return `
+  ${r.status === "sample" ? `<div class="notice"><b>Sample content.</b> This page shows the format using general steps. It gets replaced once the ${esc(r.name)} voice memo is transcribed and sent through${r.interview ? `, or once someone runs the ready-made ${esc(r.name)} interview` : ""}.${canManageRole(r) ? ` <button class="btn primary" style="margin-top:8px" data-tab-to="interview">Start the interview here</button>` : r.interview && !PUBLIC_COPY ? ` <button class="btn" style="margin-top:8px" data-copy="${esc(r.interview)}">Copy the ${esc(r.name)} interview</button>` : ""}</div>` : ""}
+  <div class="overview"><span class="label">Role overview</span><p>${esc(r.overview)}</p></div>
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="Detail level">
+      <button data-mode="quick" aria-pressed="${state.mode==="quick"}">Checklist only</button>
+      <button data-mode="full" aria-pressed="${state.mode==="full"}">With steps</button>
+    </div>
+    <div class="row"><span class="code muted" style="font-size:13px">${[...ticks].filter(k => all.some(t => t.key===k)).length} / ${all.length} · ${fmtDate(SUNDAY)}</span>
+      <button class="btn" id="reset">Clear ticks</button></div>
+  </div>
+  ${PH.map(([k,label,n]) => {
+    const ts = all.filter(t => t.phase === k); if(!ts.length) return "";
+    const done = ts.filter(t => ticks.has(t.key)).length;
+    return `<section class="phase ${k}">
+      <div class="phase-head"><h2>${label}</h2><span class="code">${done} of ${ts.length}</span><div class="bar"><i style="width:${ts.length?done/ts.length*100:0}%"></i></div></div>
+      ${ts.map((t,i) => taskHTML(r, t, `${n}.${i+1}`, ticks)).join("")}
+    </section>`; }).join("")}
+  ${r.rules?.length || r.handoff?.length ? `<div class="rules">
+    ${r.rules?.length ? `<div class="rule-card dont"><span class="label">What we don't do</span><ul>${r.rules.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+    ${r.handoff?.length ? `<div class="rule-card"><span class="label">Covering for someone?</span><p class="muted" style="font-size:14px">The minimum a substitute needs to know.</p><ul>${r.handoff.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+  </div>` : ""}
+  <p class="muted" style="font-size:14px">Already know this role well? Switch to <b>Checklist only</b> and just glance down the list before service. It's a backstop for the one or two things that slip everyone's mind.</p>`;
+}
+function kbHTML(r){
+  const kb = r.kb || [];
+  return `<p class="lede">The why behind the what. Not needed to get through Sunday, but the more you understand, the more you can own the role and fix things on the fly.</p>
+  <div class="kb">${kb.map(b => `<div class="bucket"><h3>${esc(b.bucket)}</h3><p>${esc(b.about)}</p>
+    ${b.items.length ? b.items.map(it => `<a class="res" href="${esc(it.url)}" target="_blank" rel="noopener"><b>${esc(it.title)}</b><small>${esc([it.type,it.len,it.note].filter(Boolean).join(" · "))}</small></a>`).join("") : `<span class="chip">Resources coming</span>`}
+  </div>`).join("")}</div>`;
+}
+function fixesHTML(r){
+  const fx = r.fixes || [];
+  if(!fx.length) return `<div class="empty"><h2>No troubleshooting guides yet</h2><p class="muted">When something goes wrong on a Sunday and gets fixed, record a quick phone video of the fix that same day. It'll become a guide here so the next person can fix it themselves.</p></div>`;
+  return `<p class="lede">Something not working? Find the problem that matches, open it and work through the steps.</p>
+  <div class="stack">${fx.map((f,i) => { const id = "fix-"+i; const open = state.open.has(id); return `<div class="fix ${open?"open":""}" id="t-${id}">
+    <button class="fix-btn" data-toggle="${id}" aria-expanded="${open}">${esc(f.title)}<span class="chev">${ICON.chev}</span></button>
+    ${open ? `<div class="fix-body"><p>${esc(f.when)}</p>
+      <div class="stack" style="gap:6px"><span class="label">Try these steps</span><ol>${f.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol></div>
+      <div class="stack" style="gap:6px"><span class="label">Still stuck?</span><ul>${f.stuck.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
+      ${videoHTML(f.video)}</div>` : ""}</div>`; }).join("")}</div>`;
+}
+function updatesHTML(r){
+  const ups = (r.updates||[]).slice().sort((a,b) => b.date.localeCompare(a.date));
+  if(!ups.length) return `<div class="empty"><h2>No changes yet</h2><p class="muted">When the way we run this role changes, you'll find what changed and why here. The checklist always shows the current way of doing things.</p></div>`;
+  return `<p class="lede">What's changed in this role and why. New to the role? You don't need this. The checklist is always current.</p>
+  ${ups.map(u => `<article class="update" id="u-${esc(u.id)}"><div class="row"><span class="code muted" style="font-size:13px">${fmtLong(u.date)}</span></div>
+    <h2>${esc(u.title)}</h2><p>${esc(u.big)}</p>
+    <div class="cols"><div class="stack" style="gap:6px"><span class="label">Staying the same</span><ul>${u.same.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
+    <div class="stack" style="gap:6px"><span class="label">A little different now</span><ul>${u.different.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div></div>
+    <p class="muted">${esc(u.starts)}</p>${u.video ? videoHTML(u.video) : ""}</article>`).join("")}`;
+}
+function filesHTML(r){
+  const f = r.files || [];
+  return `<p class="lede">Backup copies of the files this role can't run without: board or show files, patch lists, presets, manuals.</p>
+  ${f.length ? `<div class="kb">${f.map(x => `<a class="bucket res" href="${esc(x.url)}" target="_blank" rel="noopener"><b>${esc(x.title)}</b><small>${esc(x.note||"")}</small></a>`).join("")}</div>`
+    : `<div class="empty"><h2>No files yet</h2><p class="muted">Send Claude a shared link (Google Drive or OneDrive) to each file and it'll be added here, so nothing is one lost laptop away from a Sunday disaster.</p></div>`}`;
+}
+function viewRole(r){
+  const tabs = [["checklist","Sunday checklist",tasksOf(r).length],["kb","Tutorials",(r.kb||[]).reduce((n,b)=>n+b.items.length,0)],["fixes","Troubleshooting",(r.fixes||[]).length],["updates","Updates",(r.updates||[]).length],["files","Files",(r.files||[]).length]];
+  if(canManageRole(r)){ const st = ivStats(r); tabs.push(["interview","Interview", st.answered ? `${st.answered}/${st.total}` : 0]); }
+  let tabKey = state.tab;
+  if(tabKey === "interview" && !canManageRole(r)){ if(cap.ready) tabKey = state.tab = "checklist"; else tabKey = "loading"; }
+  const team = HUB.teams.find(t => t.id === r.team);
+  const [label, cls] = STATUS[r.status] || STATUS.todo;
+  const body = {checklist:checklistHTML, kb:kbHTML, fixes:fixesHTML, updates:updatesHTML, files:filesHTML, interview:interviewHTML, loading:() => `<p class="muted">Loading…</p>`}[tabKey](r);
+  return `<div class="role-head">
+    <button class="crumb" data-go="${team.id}">← ${esc(team.name)}</button>
+    <div class="row"><h1>${esc(r.name)}</h1><span class="chip ${cls}">${label}</span></div>
+    <p class="lede">${esc(r.short)}${r.reviewed ? ` <span class="code" style="font-size:12.5px">· Reviewed ${fmtLong(r.reviewed)}</span>` : ""}</p>
+  </div>
+  <div class="tabs" role="tablist">${tabs.map(([id,l,n]) => `<button role="tab" data-tab-to="${id}" aria-selected="${state.tab===id}">${l}${n?`<span class="n">${n}</span>`:""}</button>`).join("")}</div>
+  ${body}
+  ${r.thanks || r.future?.length ? `<div class="cols" style="margin-top:8px">
+    ${r.thanks ? `<div class="thanks"><span class="label">Thank you</span><p>${esc(r.thanks)}</p></div>` : ""}
+    ${r.future?.length ? `<div class="future"><span class="label">Things to add</span><ul>${r.future.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+  </div>` : ""}`;
+}
+
+/* ---------- Other pages ---------- */
+function viewPage(p){
+  const head = `<div class="role-head"><button class="crumb" data-go="home">← Home</button><h1>${esc(p.title)}</h1><p class="lede">${esc(p.sub)}</p></div>`;
+  if(p.kind === "before") return head + `<div class="facts">${HUB.before.map(([k,v]) => `<div class="fact"><span class="label">${esc(k)}</span><b class="${/confirm/i.test(v)?"tbc":""}">${esc(v)}</b></div>`).join("")}</div>
+    <section class="stack"><h2>Handy links</h2><div class="pages">${HUB.links.map(l => `<a class="page-link" href="${esc(l.url)}" target="_blank" rel="noopener"><b>${esc(l.name)}</b><span>${esc(l.note)}</span></a>`).join("")}</div></section>
+    <div class="thanks"><span class="label">Why we serve</span><p>${esc(HUB.values)}</p></div>`;
+  if(p.kind === "booth") return head + `<div class="notice">For anyone using the auditorium midweek: youth nights, small groups, meetings. Turning things on in the wrong order is the most common cause of Monday problems.</div>
+    <div class="empty"><h2>Startup and shutdown order coming</h2><p class="muted">Record one short voice memo walking through turning on sound and screens for a basic midweek event, then turning everything off. Send it to Claude with the Build an SOP prompt and say it's for the Booth Startup & Shutdown page. A QR code for this page belongs at the booth entrance.</p></div>`;
+  if(p.kind === "events") return head + `<div class="pages">${HUB.events.map(e => `<div class="page-link" style="cursor:default"><b>${esc(e.name)}</b><span>${esc(e.note)}</span><span class="chip" style="justify-self:start;margin-top:6px">Not written yet</span></div>`).join("")}</div>
+    <p class="muted">Each event uses the same three phases as a role checklist: setup, during and wrap-up. Send Claude a voice memo for any event to add it.</p>`;
+  if(p.kind === "join") return head + `<div class="prose">
+    <p>Interested in serving on Media or Worship? This page will cover everything you need in one place, so leaders can send one link.</p>
+    <ul><li><b>How to start:</b> <span class="tbc">to be confirmed (trial Sunday, shadowing, audition for musicians)</span></li>
+    <li><b>Time commitment:</b> <span class="tbc">to be confirmed</span></li>
+    <li><b>How you're scheduled:</b> through Planning Center Services</li>
+    <li><b>Your first Sundays:</b> you'll shadow an experienced volunteer, following the same checklist they use</li></ul>
+    <div class="thanks"><span class="label">Why we serve</span><p>${esc(HUB.values)}</p></div></div>`;
+  return head;
+}
+
+/* ---------- Leaders ---------- */
+function viewLeaders(){ return `<div class="role-head"><span class="eyebrow">For team leaders</span><h1>Leaders</h1><p class="lede">Leader tools and resources are in the leaders' hub. Sign in to Claude with the email address Andrew invited, then open it.</p></div><div class="row"><a class="btn primary" href="${esc(HUB.leaderUrl)}" target="_blank" rel="noopener">Open the leaders' hub</a></div>`; }
+
+/* ---------- Render ---------- */
+function render(){
+  renderNav();
+  const v = state.view, r = roleById(v), t = HUB.teams.find(x => x.id === v), p = pageById(v);
+  let html;
+  if(r) html = viewRole(r);
+  else if(t) html = viewTeam(t);
+  else if(p) html = viewPage(p);
+  else if(v === "more") html = `<div class="role-head"><button class="crumb" data-go="home">← Home</button><h1>Other pages</h1></div><div class="pages">${HUB.pages.map(p => `<button class="page-link" data-go="${p.id}"><b>${esc(p.title)}</b><span>${esc(p.sub)}</span></button>`).join("")}</div>`;
+  else if(v === "leaders") html = viewLeaders();
+  else { state.view = "home"; html = viewHome(); }
+  $("#app").innerHTML = html;
+  if(state.view === "home") renderResults();
+  if(state.view === "leaders" && HUB.shareBase && window.QRCode){
+    document.querySelectorAll("[data-qr]").forEach(el => { const id = el.dataset.qr;
+      try{ new QRCode(el, {text: HUB.shareBase + (id === "home" ? "" : "#" + id), width:224, height:224, colorDark:"#000000", colorLight:"#FFFFFF", correctLevel:QRCode.CorrectLevel.M}); }catch(e){} });
+  }
+}
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-acc],[data-iv],[data-go],[data-toggle],[data-tab-to],[data-mode],[data-copy],#reset");
+  if(!el) return;
+  if(el.dataset.iv){ ivAction(el); return; }
+  if(el.dataset.acc){ accAction(el); return; }
+  if(el.dataset.go){ go(el.dataset.go, {tab: el.dataset.tab, open: el.dataset.open || null});
+    if(el.dataset.open) setTimeout(() => document.getElementById("t-"+el.dataset.open)?.scrollIntoView({block:"center"}), 30); return; }
+  if(el.dataset.toggle){ const k = el.dataset.toggle;
+    if(state.mode === "full" && !k.startsWith("fix-")){ state.mode = "quick"; store.set("hh:mode","quick"); state.open = new Set(tasksOf(roleById(state.view)).map(t => t.key)); }
+    state.open.has(k) ? state.open.delete(k) : state.open.add(k); render(); document.getElementById("t-"+k)?.querySelector("[data-toggle]")?.focus(); return; }
+  if(el.dataset.tabTo){ state.tab = el.dataset.tabTo; state.open = new Set(); state.iv.follow = null; state.iv.skipOpen = false; render(); return; }
+  if(el.dataset.mode){ state.mode = el.dataset.mode; state.open = new Set(); store.set("hh:mode", state.mode); render(); return; }
+  if(el.dataset.copy){ copy(PROMPTS.find(p => p.id === el.dataset.copy).text, el); return; }
+  if(el.id === "reset"){
+    if(el.dataset.arm){ setTicks(roleById(state.view), new Set()); render(); toast("Checklist cleared"); }
+    else { el.dataset.arm = "1"; el.textContent = "Tap again to clear"; el.classList.add("warn"); setTimeout(() => { if(el.isConnected){ delete el.dataset.arm; el.textContent = "Clear ticks"; el.classList.remove("warn"); } }, 3000); }
+  }
+});
+document.addEventListener("change", e => {
+  const el = e.target;
+  if(el.dataset.tick){ const r = roleById(state.view); const s = getTicks(r); el.checked ? s.add(el.dataset.tick) : s.delete(el.dataset.tick); setTicks(r, s);
+    const id = el.id; render(); document.getElementById(id)?.focus(); }
+  if(el.dataset.accKind === "mem"){ setMemberTeams(el.dataset.accUser); }
+  if(el.dataset.rm){ const s = new Set(store.get("hh:roadmap", [])); el.checked ? s.add(el.dataset.rm) : s.delete(el.dataset.rm); store.set("hh:roadmap", [...s]); }
+});
+document.addEventListener("input", e => { if(e.target.id === "q"){ state.q = e.target.value; renderResults(); } });
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if(h && h !== state.view) go(h); });
+
+
+/* ============================================================ INTERVIEWS ON THE PAGE
+   Leaders answer a role's interview here. Answers save to the hub's shared
+   store as they go, so several people can fill it in over time. Claude asks
+   a follow-up when an answer is vague, then turns the answers into a draft
+   checklist. Editors publish the draft straight into the hub.
+   ============================================================ */
+const RESET_CSS = ":root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}";
+const HEAD_BITS = `<title>Harvest Team Hub</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">`;
+const SHELL = `<header class="top"><div class="wrap">
+  <button class="mark" data-go="home" aria-label="Harvest Team Hub home"><b>HARVEST</b><span>Team Hub</span></button>
+  <nav class="nav" id="nav" aria-label="Sections"></nav>
+</div></header>
+<main><div class="wrap view" id="app"></div></main>
+<footer><div class="wrap">Harvest Church · Team Hub · Questions or ideas? Talk to your team leader.</div></footer>
+<div class="toast" id="toast" hidden></div>`;
+const QR_SRC = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
+
+const cap = { sample:null, db:null, user:null, artifact:null, me:null, canWrite:false, canPublish:false, sampleOff:false };
+const IV = {};      // roleId -> interview doc {answers:{n:{status,text,who,followup,followupAnswer,by,at}}}
+const DRAFTS = {};  // roleId -> draft doc {role, builtAt, by, publishedAt}
+const NAMES = {};   // userId -> display name (this viewer's view)
+state.canBuild = false;
+state.iv = { cur:{}, drafts:{}, follow:null, busy:"", filter:"all", building:null, buildErr:"", dirty:false, skipOpen:false };
+
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
+const nowIso = () => new Date().toISOString();
+const fmtWhen = iso => { try{ return new Date(iso).toLocaleDateString("en-AU",{day:"numeric",month:"short"}); }catch(e){ return ""; } };
+
+/* ---------- Interview questions come from the role's prompt ---------- */
+const IV_CACHE = {};
+function interviewFor(r){
+  if(IV_CACHE[r.id]) return IV_CACHE[r.id];
+  const p = PROMPTS.find(x => x.id === r.interview) || PROMPTS.find(x => x.id === "interview");
+  const lines = p.text.replaceAll("[ROLE NAME]", r.name).split("\n");
+  let section = "", context = ""; const qs = [];
+  for(let i = 0; i < lines.length; i++){
+    const l = lines[i].trim();
+    if(/^Useful context:/i.test(l)){ context = l.replace(/^Useful context:\s*/i, ""); continue; }
+    if(/^When we've covered everything/i.test(l)) break;
+    const m = l.match(/^(\d+)\.\s+(.+)$/);
+    if(m){ qs.push({ n:m[1], q:m[2], section: section || "Questions" }); continue; }
+    const next = (lines[i+1] || "").trim();
+    if(l && l.length < 60 && /^\d+\.\s/.test(next)) section = l;
+  }
+  return (IV_CACHE[r.id] = { id:p.id, context, qs });
+}
+const answersOf = r => (IV[r.id] && IV[r.id].answers) || {};
+function ivStats(r){
+  const { qs } = interviewFor(r); const a = answersOf(r);
+  const answered = qs.filter(q => a[q.n]?.status === "answered").length;
+  const skipped = qs.filter(q => a[q.n]?.status === "skipped").length;
+  return { total: qs.length, answered, skipped, open: qs.length - answered - skipped };
+}
+const draftPending = r => { const d = DRAFTS[r.id]; return !!(d && d.role && (!d.publishedAt || d.builtAt > d.publishedAt)); };
+function currentQ(r){
+  const { qs } = interviewFor(r); const a = answersOf(r);
+  const want = state.iv.cur[r.id];
+  if(want === "done") return null;
+  if(want){ const q = qs.find(x => x.n === want); if(q) return q; }
+  return qs.find(q => !a[q.n]) || null;
+}
+function nextAfter(r, n){
+  const { qs } = interviewFor(r); const a = answersOf(r);
+  const i = qs.findIndex(q => q.n === n);
+  const order = qs.slice(i + 1).concat(qs.slice(0, i + 1));
+  const open = order.find(q => !a[q.n] && q.n !== n);
+  return open ? open.n : "done";
+}
+
+/* ---------- Writes: one at a time per document ---------- */
+const CHAIN = {};
+function queue(key, fn){ const p = (CHAIN[key] || Promise.resolve()).then(fn, fn); CHAIN[key] = p.catch(() => {}); return p; }
+async function writeDoc(path, body){
+  const ref = cap.db.doc(path);
+  try{ await ref.update(body); }
+  catch(e){
+    if(e && e.code === "invalid_argument"){
+      const snap = await ref.get();
+      if(!snap.exists){ await ref.set(body); return; }
+    }
+    throw e;
+  }
+}
+function saveAnswer(r, n, patch){
+  const entry = { ...patch, by: cap.me || "", at: nowIso() };
+  IV[r.id] = IV[r.id] || { answers:{} };
+  IV[r.id] = { ...IV[r.id], answers: { ...answersOf(r), [n]: { ...(answersOf(r)[n] || {}), ...entry } } };
+  return queue("iv/" + r.id, () => writeDoc("interviews/" + r.id, { answers: { [n]: entry }, updatedAt: nowIso() }))
+    .catch(e => { toast(e && e.code === "invalid_argument" ? "You can view the interview but not save answers." : "Couldn't save that answer. Check your connection and try again."); throw e; });
+}
+
+/* ---------- Names of who answered ---------- */
+async function refreshNames(){
+  if(!cap.user) return;
+  const ids = new Set();
+  Object.values(IV).forEach(d => Object.values(d.answers || {}).forEach(a => a.by && ids.add(a.by)));
+  Object.values(DRAFTS).forEach(d => d.by && ids.add(d.by));
+  Object.keys(MEMBERS).forEach(i => ids.add(i)); Object.keys(REQUESTS).forEach(i => ids.add(i));
+  if(!ids.size) return;
+  const ps = await cap.user.profiles([...ids]);
+  let changed = false;
+  for(const id of ids){ const nm = (ps[id] && ps[id].isMe) ? "you" : ((ps[id] && ps[id].name) || "a leader"); if(NAMES[id] !== nm){ NAMES[id] = nm; changed = true; } }
+  if(changed) softRender();
+}
+const who = id => NAMES[id] || "a leader";
+
+/* Avoid wiping a half-typed answer when someone else's save arrives */
+const TYPING = ["iv-ans","iv-fu","iv-who","acc-name","nr-name","nr-short"];
+function softRender(){
+  const a = document.activeElement;
+  if(a && TYPING.includes(a.id)){ state.iv.dirty = true; return; }
+  render();
+}
+document.addEventListener("focusout", () => { if(state.iv.dirty){ setTimeout(() => { const a = document.activeElement; if(!(a && TYPING.includes(a.id))){ state.iv.dirty = false; render(); } }, 0); } });
+
+/* ---------- Interview tab ---------- */
+function ivProgress(st){
+  const pct = v => st.total ? (v / st.total * 100) : 0;
+  return `<div class="iv-progress"><div class="iv-bar"><i class="ok" style="width:${pct(st.answered)}%"></i><i class="sk" style="width:${pct(st.skipped)}%"></i></div>
+    <span class="code muted">${st.answered} answered · ${st.skipped} skipped · ${st.open} to go</span></div>`;
+}
+function ivCard(r){
+  const { qs } = interviewFor(r); const a = answersOf(r);
+  const q = currentQ(r);
+  const st = ivStats(r);
+  if(!q) return `<div class="iv-card done"><span class="label">${st.open ? "Paused" : "All questions seen"}</span>
+    <h2 class="iv-q">${st.open ? "Pick any question below to keep going." : "That's every question. Thank you."}</h2>
+    <p class="muted">${st.skipped ? `${st.skipped} skipped question${st.skipped>1?"s":""} can be picked up later by whoever knows. ` : ""}When you're ready, build the checklist below.</p></div>`;
+  const ans = a[q.n]; const key = r.id + ":" + q.n;
+  const idx = qs.findIndex(x => x.n === q.n);
+  const f = state.iv.follow && state.iv.follow.key === key ? state.iv.follow : null;
+  const val = state.iv.drafts[key] ?? (ans && ans.status === "answered" ? ans.text : "");
+  const meta = ans ? (ans.status === "answered" ? `Answered by ${esc(who(ans.by))} · ${fmtWhen(ans.at)}` : `Skipped by ${esc(who(ans.by))}${ans.who ? ` · ${esc(ans.who)} might know` : ""}`) : "";
+  return `<div class="iv-card" id="iv-card">
+    <div class="row" style="justify-content:space-between"><span class="label">${esc(q.section)}</span><span class="code muted" style="font-size:12.5px">Question ${idx+1} of ${qs.length}</span></div>
+    <h2 class="iv-q">${esc(q.q)}</h2>
+    ${meta ? `<p class="iv-meta">${meta}</p>` : ""}
+    ${f ? `<div class="iv-given"><span class="label">Your answer</span><p>${esc(f.answer)}</p></div>
+      <div class="iv-follow"><span class="label">Claude asks</span><p>${esc(f.q)}</p>
+        <label class="sr" for="iv-fu">Your reply to Claude's follow-up</label>
+        <textarea id="iv-fu" rows="3" placeholder="Add the detail, or skip if you don't know.">${esc(state.iv.drafts[key + ":fu"] || "")}</textarea>
+        <div class="row"><button class="btn primary" data-iv="fu-save">Add to answer</button><button class="btn" data-iv="fu-skip">Skip follow-up</button></div></div>`
+    : `<label class="sr" for="iv-ans">Your answer</label>
+      <textarea id="iv-ans" rows="4" placeholder="Type your answer. Short is fine, details help.">${esc(val)}</textarea>
+      <div class="iv-actions">
+        <button class="btn primary" data-iv="save">Save and next</button>
+        <button class="btn" data-iv="dontknow" aria-expanded="${state.iv.skipOpen}">I don't know</button>
+        <span class="iv-nav"><button class="link" data-iv="prev">Back</button><button class="link" data-iv="next">Skip ahead</button></span>
+      </div>
+      ${state.iv.skipOpen ? `<div class="iv-skip"><label for="iv-who">Who might know? (optional)</label>
+        <div class="row"><input id="iv-who" type="text" placeholder="e.g. Sam, or the worship leader" autocomplete="off"><button class="btn" data-iv="skip">Skip this question</button></div></div>` : ""}`}
+    ${state.iv.busy ? `<p class="iv-busy" role="status">${esc(state.iv.busy)}</p>` : ""}
+  </div>`;
+}
+function ivList(r){
+  const { qs } = interviewFor(r); const a = answersOf(r); const cur = currentQ(r);
+  const filt = state.iv.filter;
+  const show = qs.filter(q => filt === "all" || (filt === "todo" && !a[q.n]) || (filt === "skipped" && a[q.n]?.status === "skipped"));
+  const secs = [...new Set(show.map(q => q.section))];
+  return `<div class="toolbar"><h2>All questions</h2>
+    <div class="seg" role="group" aria-label="Show">${[["all","All"],["todo","To do"],["skipped","Skipped"]].map(([k,l]) => `<button data-iv="filter" data-f="${k}" aria-pressed="${filt===k}">${l}</button>`).join("")}</div></div>
+    ${show.length ? `<div class="iv-list">${secs.map(s => `<div class="iv-sec"><span class="label">${esc(s)}</span>${show.filter(q => q.section === s).map(q => {
+      const x = a[q.n]; const stt = x ? x.status : "open";
+      const prev = x ? (x.status === "answered" ? x.text : `Skipped${x.who ? ` · ask ${x.who}` : ""}`) : "";
+      return `<button class="iv-row ${stt} ${cur && cur.n === q.n ? "cur" : ""}" data-iv="go" data-n="${q.n}">
+        <span class="dot" aria-hidden="true"></span><span class="t">${esc(q.q)}${prev ? `<small>${esc(prev.length > 110 ? prev.slice(0,110) + "…" : prev)}</small>` : ""}</span>
+        <span class="sr">${stt === "answered" ? "answered" : stt === "skipped" ? "skipped" : "not answered"}</span></button>`; }).join("")}</div>`).join("")}</div>`
+    : `<p class="muted">Nothing here.</p>`}`;
+}
+function previewHTML(role){
+  const sec = (k, label) => { const ts = (role.phases && role.phases[k]) || []; if(!ts.length) return "";
+    return `<section class="phase ${k}"><div class="phase-head"><h2>${label}</h2><span class="code">${ts.length} tasks</span></div>
+      ${ts.map(t => `<div class="task open"><div class="pv-task"><b>${esc(t.title)}</b>${t.by ? ` <span class="by">by ${esc(t.by)}</span>` : ""}</div>
+        <div class="detail pv">${t.ordered ? `<ol>${t.steps.map(stepHTML).join("")}</ol>` : `<ul>${t.steps.map(stepHTML).join("")}</ul>`}</div></div>`).join("")}</section>`; };
+  return `<div class="overview"><span class="label">Role overview</span><p>${esc(role.overview)}</p></div>
+    ${PH.map(([k,l]) => sec(k,l)).join("")}
+    <div class="rules">
+      ${role.rules?.length ? `<div class="rule-card dont"><span class="label">What we don't do</span><ul>${role.rules.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+      ${role.handoff?.length ? `<div class="rule-card"><span class="label">Covering for someone?</span><ul>${role.handoff.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+      ${role.fixes?.length ? `<div class="rule-card"><span class="label">Troubleshooting guides</span><ul>${role.fixes.map(x => `<li>${esc(x.title)}</li>`).join("")}</ul></div>` : ""}
+      ${role.future?.length ? `<div class="rule-card"><span class="label">Things to add</span><ul>${role.future.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+    </div>`;
+}
+function ivBuild(r){
+  const st = ivStats(r); const d = DRAFTS[r.id];
+  const b = state.iv.building === r.id;
+  const pending = draftPending(r);
+  const canBuildNow = !!cap.sample && !cap.sampleOff && st.answered >= 4;
+  return `<section class="iv-build" id="iv-build"><h2>Turn the answers into a checklist</h2>
+    <p class="muted">Claude writes the checklist from the answers so far. Skipped questions go into "Things to add" so whoever knows can fill them in later. You can rebuild any time as more answers come in.${r.phases && r.status !== "sample" ? " The current checklist is kept, and the answers add to it or change it." : ""}</p>
+    ${b ? `<div class="iv-working" role="status"><span class="spin" aria-hidden="true"></span><span>Claude is writing the ${esc(r.name)} checklist. This usually takes under a minute.</span><button class="btn" data-iv="stop">Stop</button></div>`
+      : `<div class="row"><button class="btn ${pending ? "" : "primary"}" data-iv="build" ${canBuildNow ? "" : "disabled"}>${d && d.role ? "Rebuild the checklist" : "Build the checklist"}</button>
+        ${!cap.sample || cap.sampleOff ? `<span class="muted" style="font-size:14px">Building needs Claude, which isn't available for you on this page. Answers still save, and anyone who can use Claude here can build it.</span>`
+          : st.answered < 4 ? `<span class="muted" style="font-size:14px">Answer at least 4 questions first.</span>` : ""}</div>`}
+    ${state.iv.buildErr ? `<p class="iv-err">${esc(state.iv.buildErr)}</p>` : ""}
+    ${pending && !b ? `<div class="notice">Draft built ${fmtWhen(d.builtAt)} by ${esc(who(d.by))}. Check it below, then publish it to the hub.</div>
+      <div class="row">${cap.canPublish ? `<button class="btn primary" data-iv="publish">Publish to the hub</button>` : ""}</div>
+      ${cap.canPublish ? "" : `<p class="muted" style="font-size:14px">Only hub editors can publish. The draft is saved: ask Andrew to publish it, or tell Claude in the Church Checklists project "Publish the ${esc(r.name)} draft from the hub".</p>`}
+      <div class="iv-preview">${previewHTML(d.role)}</div>` : ""}
+    ${d && d.role && !pending ? `<p class="muted" style="font-size:14px">The last draft was published ${fmtWhen(d.publishedAt)}.</p>` : ""}
+  </section>`;
+}
+function interviewHTML(r){
+  const st = ivStats(r);
+  return `<p class="lede">Answer what you know about the ${esc(r.name)} role. Skip what you don't and say who might know. Answers save as you go, so anyone on the team with access can open this page later and fill the gaps.</p>
+    ${ivProgress(st)}
+    ${ivCard(r)}
+    ${ivBuild(r)}
+    ${ivList(r)}`;
+}
+
+/* ---------- Claude ---------- */
+async function askFollowup(r, q, text){
+  if(!cap.sample || cap.sampleOff) return null;
+  const { context } = interviewFor(r);
+  const prompt = `You're helping a church team leader at Harvest Church (Horsham, Victoria) build a step-by-step checklist for volunteers in the "${r.name}" role.
+${context ? "Background: " + context + "\n" : ""}
+Interview question: ${q.q}
+Their answer: ${text}
+
+Could a brand-new volunteer act on this answer? If one important, concrete detail is clearly missing (a file or button name, an order, a time, where something is, who to ask), write ONE short follow-up question in plain Australian English. If the answer is good enough, or they've said they don't know, there is no follow-up.
+Reply with only JSON: {"followup": "the question"} or {"followup": null}`;
+  try{
+    const out = await cap.sample.json(prompt, { modelTier:"quick" });
+    const fq = out && typeof out.followup === "string" ? out.followup.trim() : "";
+    return fq || null;
+  }catch(e){
+    if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(e && e.code)) cap.sampleOff = true;
+    return null;
+  }
+}
+const clean = v => typeof v === "string" ? v.replace(/\s*—\s*/g, ", ").replace(/\s+/g, " ").trim() : "";
+const list = v => Array.isArray(v) ? v.map(clean).filter(Boolean) : [];
+function cleanStep(s){
+  if(typeof s === "string") return clean(s) || null;
+  if(!s || typeof s !== "object") return null;
+  const t = clean(s.t || s.text || s.step); if(!t) return null;
+  const o = { t }; const sub = list(s.sub); const note = clean(s.note);
+  if(sub.length) o.sub = sub; if(note) o.note = note;
+  return o;
+}
+function cleanRole(o){
+  if(!o || typeof o !== "object") throw new Error("shape");
+  const phases = {};
+  let n = 0;
+  for(const [k] of PH){
+    phases[k] = (Array.isArray(o.phases && o.phases[k]) ? o.phases[k] : []).map(t => {
+      const steps = (Array.isArray(t && t.steps) ? t.steps : []).map(cleanStep).filter(Boolean);
+      const task = { title: clean(t && t.title), ordered: !!(t && t.ordered), video: null, steps };
+      const by = clean(t && t.by); if(by) task.by = by;
+      return task;
+    }).filter(t => t.title && t.steps.length);
+    n += phases[k].length;
+  }
+  if(!n) throw new Error("empty");
+  const fixes = (Array.isArray(o.fixes) ? o.fixes : []).map(f => ({ title: clean(f && f.title), when: clean(f && f.when), steps: list(f && f.steps), stuck: list(f && f.stuck), video: null }))
+    .filter(f => f.title && f.steps.length);
+  return { overview: clean(o.overview), phases, rules: list(o.rules), handoff: list(o.handoff), fixes, future: list(o.future), thanks: clean(o.thanks) };
+}
+let buildCtl = null;
+async function buildChecklist(r){
+  const { context, qs } = interviewFor(r); const a = answersOf(r);
+  const qa = qs.map(q => { const x = a[q.n]; if(!x) return null;
+    if(x.status === "skipped") return `Q${q.n} [${q.section}] ${q.q}\nSKIPPED${x.who ? ` (ask ${x.who})` : ""}`;
+    return `Q${q.n} [${q.section}] ${q.q}\nA: ${x.text}${x.followup && x.followupAnswer ? `\nFollow-up: ${x.followup}\nA: ${x.followupAnswer}` : ""}`; }).filter(Boolean).join("\n\n");
+  const unasked = qs.filter(q => !a[q.n]).map(q => `Q${q.n} [${q.section}] ${q.q}`).join("\n");
+  const keep = r.phases && r.status !== "sample";
+  const existing = keep ? JSON.stringify({ overview:r.overview, phases:r.phases, rules:r.rules||[], handoff:r.handoff||[], fixes:(r.fixes||[]).map(f => ({title:f.title,when:f.when,steps:f.steps,stuck:f.stuck})), future:r.future||[] }) : "";
+  const prompt = `You are writing the volunteer checklist (SOP) for the "${r.name}" role in the Harvest Team Hub at Harvest Church, Horsham, Victoria.
+Team leaders answered the interview questions below. Some were skipped because nobody knew yet.
+
+Rules:
+- Use only what the answers say or clearly imply. Never invent gear, file names, times, people or steps.
+- Plain Australian English a brand-new volunteer could follow at 7:30am. Never use em dashes.
+- Two levels: short action-led task titles, with detailed steps under each.
+- "ordered": true when the order of steps matters, false otherwise.
+- Put warnings and tips in a step's "note". Use "sub" for small details under a step.
+- Add "by" (a time such as "9:15") only when an answer gives one.
+- Phases: "prep" is midweek, "pre" is Sunday setup and rehearsal, "live" is during the service, "down" is shutdown. Use [] for a phase nobody described.
+- "rules": things we never do. "handoff": the minimum a substitute needs. Never include passwords, PINs or stream keys.
+- "fixes": one troubleshooting guide for each common problem the answers describe. "when" starts with "Use this when".
+- "future": one short line for each skipped or unanswered question that matters, such as "Still to confirm: the setup file name (ask Sam)". Also keep any wish-list items the answers mention.
+- "overview": one paragraph of 3 to 5 sentences: the purpose of the role, the main responsibilities, when it's active, and what a win looks like on Sunday.
+- "thanks": one warm, specific sentence thanking volunteers in this role.
+${keep ? `- This role already has the checklist below. Keep everything in it unless the answers change or add to it.
+
+CURRENT CHECKLIST (JSON):
+${existing}
+` : ""}
+${context ? "Background for this role: " + context + "\n" : ""}
+ANSWERS:
+${qa || "(none)"}
+
+NOT YET ANSWERED:
+${unasked || "(none)"}
+
+Reply with only one JSON object in exactly this shape:
+{"overview":"...","phases":{"prep":[],"pre":[{"title":"...","by":"9:00","ordered":true,"steps":["A plain step",{"t":"A step with detail","sub":["a detail"],"note":"a warning"}]}],"live":[],"down":[]},"rules":["..."],"handoff":["..."],"fixes":[{"title":"...","when":"Use this when ...","steps":["..."],"stuck":["..."]}],"future":["..."],"thanks":"..."}`;
+  state.iv.building = r.id; state.iv.buildErr = ""; render();
+  buildCtl = new AbortController();
+  try{
+    const out = await cap.sample.json(prompt, { modelTier:"default", cache:false, signal: buildCtl.signal });
+    const role = cleanRole(out);
+    const doc = { role, builtAt: nowIso(), by: cap.me || "", publishedAt: null };
+    DRAFTS[r.id] = doc;
+    await queue("draft/" + r.id, () => cap.db.doc("drafts/" + r.id).set(doc));
+    toast("Draft checklist saved");
+  }catch(e){
+    const c = e && e.code;
+    state.iv.buildErr = c === "cancelled" ? "" :
+      c === "rate_limited" ? "Claude is busy for you right now. Try again in a few minutes." :
+      ["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(c) ? (cap.sampleOff = true, "Claude isn't available for you on this page. Answers are still saved.") :
+      c === "invalid_json" || (e && (e.message === "empty" || e.message === "shape")) ? "Claude's draft came back incomplete. Try building again." :
+      c === "invalid_argument" ? "You can't save drafts on this page." :
+      "Something went wrong building the draft. Your answers are safe. Try again.";
+  }finally{
+    state.iv.building = null; buildCtl = null; render();
+    document.getElementById("iv-build")?.scrollIntoView({ block:"start" });
+  }
+}
+
+/* ---------- Publishing the draft into the hub ---------- */
+function pageSource(hub){
+  const css = document.getElementById("hub-css").textContent;
+  const app = document.getElementById("hub-app").textContent;
+  const data = JSON.stringify(hub, null, 1).replace(/</g, "\\u003c");
+  return "<!doctype html><html><head><meta charset=utf8><meta name=viewport content=\"width=device-width,initial-scale=1,viewport-fit=cover\"><style>" + RESET_CSS + "</style></head><body>\n"
+    + HEAD_BITS + "\n<style id=\"hub-css\">" + css + "</style>\n\n<div id=\"root\"></div>\n\n"
+    + "<script type=\"application/json\" id=\"hub-data\">" + data + "<\/script>\n"
+    + "<script src=\"" + QR_SRC + "\"><\/script>\n"
+    + "<script id=\"hub-app\">" + app + "<\/script>\n</body></html>";
+}
+async function publishDraft(r){
+  const d = DRAFTS[r.id]; if(!d || !d.role || !cap.artifact) return;
+  const hub = JSON.parse(JSON.stringify(HUB));
+  const i = hub.roles.findIndex(x => x.id === r.id); const old = hub.roles[i];
+  const vids = {}; PH.forEach(([k]) => ((old.phases && old.phases[k]) || []).forEach(t => { if(t.video) vids[t.title.toLowerCase()] = t.video; }));
+  const phases = {}; PH.forEach(([k]) => { phases[k] = (d.role.phases[k] || []).map(t => ({ ...t, video: vids[t.title.toLowerCase()] || null })); });
+  const newTitles = new Set(d.role.fixes.map(f => f.title.toLowerCase()));
+  const oldFix = t => (old.fixes || []).find(f => f.title.toLowerCase() === t.toLowerCase());
+  const fixes = d.role.fixes.map(f => ({ ...f, video: (oldFix(f.title) || {}).video || null }))
+    .concat(old.status === "sample" ? [] : (old.fixes || []).filter(f => !newTitles.has(f.title.toLowerCase())));
+  hub.roles[i] = { ...old, overview: d.role.overview || old.overview || "", phases, rules: d.role.rules, handoff: d.role.handoff, fixes,
+    future: d.role.future, thanks: old.thanks || d.role.thanks || "", status: "draft", reviewed: today(),
+    updates: (old.updates || []).filter(u => !/sample/i.test(u.id)) };
+  hub.lastUpdated = today();
+  const stamp = nowIso();
+  try{ await queue("draft/" + r.id, () => cap.db.doc("drafts/" + r.id).update({ publishedAt: stamp })); }catch(e){}
+  state.iv.busy = "";
+  const ok = await publishHub(hub, { view: r.id, tab: "checklist", msg: "Published. The checklist is live in the hub." });
+  if(!ok){ try{ await queue("draft/" + r.id, () => cap.db.doc("drafts/" + r.id).update({ publishedAt: null })); }catch(x){} }
+}
+async function publishHub(hub, after){
+  if(!cap.artifact){ toast("Publishing isn't available here."); return false; }
+  try{ sessionStorage.setItem("hh:after", JSON.stringify(after)); }catch(e){}
+  toast("Publishing…");
+  hub.rev = nowIso();
+  try{ await cap.artifact.publish(pageSource(hub)); return true; }
+  catch(e){
+    try{ sessionStorage.removeItem("hh:after"); }catch(x){}
+    const c = e && e.code;
+    if(c === "conflict") toast("Someone else updated the hub just now. It's reloading, so try again in a moment.");
+    else if(c === "not_writer" || c === "not_granted" || c === "consent_required"){ cap.canPublish = false; render(); toast("Only hub editors can publish. Ask Andrew to make you an Editor."); }
+    else if(c === "rate_limited") toast("Publishing too often. Wait a minute and try again.");
+    else toast("Couldn't publish. Try again.");
+    return false;
+  }
+}
+
+/* ---------- Interview actions ---------- */
+async function ivAction(el){
+  const r = roleById(state.view); if(!r || !canManageRole(r)) return;
+  const act = el.dataset.iv; const q = currentQ(r); const key = q ? r.id + ":" + q.n : "";
+  if(act === "go"){ state.iv.cur[r.id] = el.dataset.n; state.iv.follow = null; state.iv.skipOpen = false; render(); document.getElementById("iv-card")?.scrollIntoView({ block:"start" }); document.getElementById("iv-ans")?.focus(); return; }
+  if(act === "filter"){ state.iv.filter = el.dataset.f; render(); return; }
+  if(act === "stop"){ buildCtl?.abort(); return; }
+  if(act === "build"){ if(!state.iv.building) buildChecklist(r); return; }
+  if(act === "publish"){ el.disabled = true; publishDraft(r); return; }
+  if(!q) return;
+  const { qs } = interviewFor(r); const idx = qs.findIndex(x => x.n === q.n);
+  if(act === "prev"){ state.iv.cur[r.id] = qs[(idx - 1 + qs.length) % qs.length].n; state.iv.skipOpen = false; render(); return; }
+  if(act === "next"){ state.iv.cur[r.id] = qs[(idx + 1) % qs.length].n; state.iv.skipOpen = false; render(); return; }
+  if(act === "dontknow"){ state.iv.skipOpen = !state.iv.skipOpen; render(); if(state.iv.skipOpen) document.getElementById("iv-who")?.focus(); return; }
+  if(act === "skip"){
+    const w = (document.getElementById("iv-who")?.value || "").trim();
+    state.iv.skipOpen = false; delete state.iv.drafts[key];
+    state.iv.cur[r.id] = nextAfter(r, q.n); render();
+    saveAnswer(r, q.n, { status:"skipped", who: w }).then(() => render(), () => render());
+    return;
+  }
+  if(act === "save"){
+    const text = (document.getElementById("iv-ans")?.value || "").trim();
+    if(!text){ toast("Type an answer, or choose I don't know."); return; }
+    delete state.iv.drafts[key];
+    try{ await saveAnswer(r, q.n, { status:"answered", text, who:"", followup:"", followupAnswer:"" }); }catch(e){ render(); return; }
+    state.iv.busy = cap.sample && !cap.sampleOff ? "Checking your answer…" : ""; render();
+    const fq = await askFollowup(r, q, text);
+    state.iv.busy = "";
+    if(fq && state.view === r.id){ state.iv.cur[r.id] = q.n; state.iv.follow = { key, q: fq, answer: text, n: q.n }; render(); document.getElementById("iv-fu")?.focus(); return; }
+    state.iv.cur[r.id] = nextAfter(r, q.n); render(); document.getElementById("iv-ans")?.focus();
+    return;
+  }
+  if(act === "fu-save" || act === "fu-skip"){
+    const f = state.iv.follow; if(!f) return;
+    const reply = act === "fu-save" ? (document.getElementById("iv-fu")?.value || "").trim() : "";
+    if(act === "fu-save" && !reply){ toast("Type the extra detail, or skip the follow-up."); return; }
+    delete state.iv.drafts[key + ":fu"];
+    state.iv.follow = null; state.iv.cur[r.id] = nextAfter(r, f.n); render();
+    if(reply) saveAnswer(r, f.n, { followup: f.q, followupAnswer: reply }).then(() => render(), () => render());
+    document.getElementById("iv-ans")?.focus();
+    return;
+  }
+}
+document.addEventListener("input", e => {
+  const r = roleById(state.view); if(!r) return;
+  const q = currentQ(r); if(!q) return;
+  const key = r.id + ":" + q.n;
+  if(e.target.id === "iv-ans") state.iv.drafts[key] = e.target.value;
+  if(e.target.id === "iv-fu") state.iv.drafts[key + ":fu"] = e.target.value;
+});
+
+/* ---------- Volunteer website (team.harvestchurch.org.au) ----------
+   The hub saves its latest content to the shared store after every publish.
+   A scheduled task on Andrew's account copies it to the website. */
+const SITE = { stamp:null, web:null, busy:false, fired:"", fireErr:"" };
+function publicHub(){ const h = JSON.parse(JSON.stringify(HUB)); delete h.syncTrigger; return h; }
+const LEADER_GATE = 'function viewLeaders(){ return `<div class="role-head"><span class="eyebrow">For team leaders</span><h1>Leaders</h1><p class="lede">Leader tools and resources are in the leaders\' hub. Sign in to Claude with the email address Andrew invited, then open it.</p></div><div class="row"><a class="btn primary" href="${esc(HUB.leaderUrl)}" target="_blank" rel="noopener">Open the leaders\' hub</a></div>`; }\n';
+function exportSource(){
+  const cut = (src, a, b, put) => { const i = src.indexOf(a), j = src.indexOf(b); return (i < 0 || j < i) ? src : src.slice(0, i) + put + src.slice(j + b.length); };
+  let html = pageSource(publicHub());
+  html = cut(html, "/*@leader" + "-start*/", "/*@leader" + "-end*/", "const PROMPTS = [];\nconst ROADMAP = [];\n");
+  html = cut(html, "/*@leaders-page" + "-start*/", "/*@leaders-page" + "-end*/", LEADER_GATE);
+  return html.replace("<title>Harvest Team Hub</title>", "<title>Harvest Team Hub</title>\n<meta name=\"robots\" content=\"noindex, nofollow\">");
+}
+const fmtStamp = iso => { try{ return new Date(iso).toLocaleString("en-AU",{ weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit" }); }catch(e){ return ""; } };
+async function maybeSyncSite(){
+  if(SITE.busy || !HUB.rev || !cap.db || !state.canBuild) return;
+  const cur = (SITE.stamp && SITE.stamp.rev) || "";
+  if(cur < HUB.rev){
+    SITE.busy = true;
+    try{
+      await cap.db.doc("site/hub").set({ hub: publicHub(), rev: HUB.rev, at: nowIso() });
+      await cap.db.doc("site/stamp").set({ rev: HUB.rev, at: nowIso() });
+      SITE.stamp = { rev: HUB.rev, at: nowIso() };
+    }catch(e){}
+    finally{ SITE.busy = false; }
+  }
+  if(state.justPublished) fireSiteUpdate(false);
+}
+async function fireSiteUpdate(fromButton){
+  if(!cap.isOwner || !cap.mcp || !HUB.syncTrigger) return;
+  const want = (SITE.stamp && SITE.stamp.rev) || ""; const web = (SITE.web && SITE.web.rev) || "";
+  if(!want || web >= want || (!fromButton && SITE.fired === want)) return;
+  SITE.fired = want;
+  try{ await cap.mcp.callTool("Claude Code Remote", "fire_trigger", { trigger_id: HUB.syncTrigger }); SITE.fireErr = ""; toast("Updating the volunteer website. It takes a minute or two."); }
+  catch(e){ SITE.fireErr = (e && e.code) || "upstream_error"; if(fromButton) toast(SITE.fireErr === "not_in_manifest" || SITE.fireErr === "approval_required" ? "Allow the hub to start the website update, then try again." : "Couldn't start the update. The hourly check will pick it up."); }
+  softRender();
+}
+function siteStatusHTML(){
+  if(!state.canBuild) return "";
+  const want = (SITE.stamp && SITE.stamp.rev) || ""; const web = SITE.web;
+  const upToDate = !!(want && web && web.rev >= want);
+  const msg = !web ? "The volunteer website hasn't had its first update yet."
+    : upToDate ? `Up to date. Last updated ${esc(fmtStamp(web.at))}.`
+    : `Your latest changes are on their way. The website checks for changes every hour. Last updated ${esc(fmtStamp(web.at))}.`;
+  return `<section class="stack" id="website"><h2>Volunteer website</h2>
+    <p class="muted">Volunteers use <b>team.harvestchurch.org.au</b>, which needs no login. Everything published here copies across automatically, usually within the hour.</p>
+    <div class="notice${upToDate ? " ok" : ""}">${msg}</div>
+    ${cap.isOwner && cap.mcp && HUB.syncTrigger && web && !upToDate ? `<div class="row"><button class="btn" data-acc="sync">Update the website now</button></div>` : ""}
+  </section>`;
+}
+
+/* ---------- Who looks after which area ----------
+   Andrew (the hub's owner) can work on everything. Each leader asks for access
+   once, then Andrew ticks the areas they look after. Leaders only see the
+   interview and add-role tools in their own areas. */
+const MEMBERS = {};   // userId -> {teams:[teamId], label, addedAt}
+const REQUESTS = {};  // userId -> {name, at}   (only the owner can read these)
+let MYREQ = null;
+state.acc = { addRole: null };
+function applyWant(){}
+function myTeams(){
+  if(cap.isOwner) return HUB.teams.map(t => t.id);
+  const m = cap.me && MEMBERS[cap.me];
+  return (m && Array.isArray(m.teams)) ? m.teams.filter(id => HUB.teams.some(t => t.id === id)) : [];
+}
+function canManageTeam(id){ return !!(state.canBuild && cap.ready && myTeams().includes(id)); }
+function canManageRole(r){ return !!r && canManageTeam(r.team); }
+function memberName(id){
+  const n = NAMES[id];
+  if(n && n !== "a leader") return n;
+  return (MEMBERS[id] && MEMBERS[id].label) || (REQUESTS[id] && REQUESTS[id].name) || "A leader";
+}
+const teamName = id => (HUB.teams.find(t => t.id === id) || {}).name || id;
+
+function accessCard(){
+  if(MYREQ) return `<div class="notice"><b>Access requested ${fmtWhen(MYREQ.at)}.</b> Andrew will choose the areas you look after. The interview tools will appear here as soon as he does.</div>`;
+  return `<div class="iv-card"><span class="label">Get access</span>
+    <h2 class="iv-q">Ask Andrew for access to your area</h2>
+    <p class="muted">Tell him who you are. He'll choose the areas you look after, then you can add roles and run their interviews.</p>
+    <label for="acc-name" class="field-label">Your name</label>
+    <div class="row field-row"><input id="acc-name" type="text" autocomplete="name" placeholder="e.g. Lucy McKinnon"><button class="btn primary" data-acc="request">Ask for access</button></div></div>`;
+}
+function teamBoxes(id, teams, kind){
+  return HUB.teams.map(t => `<label class="acc-box"><input type="checkbox" id="${kind}-${id}-${t.id}" data-acc-kind="${kind}" data-acc-user="${id}" data-acc-team="${t.id}" ${teams.includes(t.id) ? "checked" : ""}><span>${esc(t.name)}</span></label>`).join("");
+}
+function accessPanel(){
+  const reqs = Object.entries(REQUESTS).sort((a,b) => String(a[1].at).localeCompare(String(b[1].at)));
+  const mems = Object.entries(MEMBERS).sort((a,b) => memberName(a[0]).localeCompare(memberName(b[0])));
+  return `<section class="stack" id="access"><h2>Who looks after which area</h2>
+    <p class="muted">Invite each leader by email from the Share menu, as an Editor. When they open the hub signed in, they ask for access on this page and appear here. Tick the areas they look after: they can add roles and run interviews in those areas only. You can do everything.</p>
+    ${reqs.length ? `<div class="acc-list">${reqs.map(([id,q]) => `<div class="acc-row req">
+        <div class="acc-who"><b>${esc(memberName(id))}</b><span class="chip sample">Asking for access</span>${q.name && q.name !== memberName(id) ? `<span class="muted"> Says they're ${esc(q.name)}</span>` : ""}</div>
+        <div class="acc-boxes">${teamBoxes(id, [], "req")}</div>
+        <div class="row"><button class="btn primary" data-acc="approve" data-user="${id}">Give access</button><button class="btn" data-acc="decline" data-user="${id}">Decline</button></div></div>`).join("")}</div>` : ""}
+    ${mems.length ? `<div class="acc-list">${mems.map(([id,m]) => `<div class="acc-row">
+        <div class="acc-who"><b>${esc(memberName(id))}</b>${(m.teams || []).length ? "" : `<span class="chip">No areas</span>`}</div>
+        <div class="acc-boxes">${teamBoxes(id, m.teams || [], "mem")}</div>
+        <div class="row"><button class="link" data-acc="remove" data-user="${id}">Remove access</button></div></div>`).join("")}</div>`
+      : reqs.length ? "" : `<p class="muted">Nobody has asked for access yet.</p>`}
+  </section>`;
+}
+function addRoleHTML(t){
+  if(!canManageTeam(t.id)) return "";
+  if(!cap.canPublish) return `<p class="muted">To add roles, Andrew needs to make you an Editor of the hub from its Share menu.</p>`;
+  if(state.acc.addRole !== t.id) return `<div class="row"><button class="btn primary" data-acc="addrole-open" data-team="${t.id}">Add a role</button></div>`;
+  const ivs = PROMPTS.filter(p => p.id.startsWith("interview"));
+  const def = t.id === "kids" ? "interview-kids" : "interview";
+  const label = p => p.id === "interview" ? "General questions (any role)" : p.id === "interview-kids" ? "Harvest Kids questions (any kids role)" : p.title.replace("Interview me: ", "") + " questions";
+  return `<div class="iv-card add-role" id="add-role"><span class="label">New role in ${esc(t.name)}</span>
+    <label for="nr-name" class="field-label">Role name</label>
+    <input id="nr-name" type="text" autocomplete="off" placeholder="${t.id === "kids" ? "e.g. Check-in desk" : "e.g. Bass guitar"}">
+    <label for="nr-short" class="field-label">One line about it</label>
+    <input id="nr-short" type="text" autocomplete="off" placeholder="What this person does on a Sunday">
+    <label for="nr-iv" class="field-label">Interview questions to use</label>
+    <select id="nr-iv">${ivs.map(p => `<option value="${p.id}" ${p.id === def ? "selected" : ""}>${esc(label(p))}</option>`).join("")}</select>
+    <div class="row"><button class="btn primary" data-acc="addrole-save" data-team="${t.id}">Add role and start the interview</button><button class="btn" data-acc="addrole-cancel">Cancel</button></div>
+    <p class="muted" style="font-size:14px">Adding a role updates the hub straight away. Volunteers see it marked "Not written yet" until its checklist is published.</p></div>`;
+}
+async function addRole(teamId){
+  const name = (document.getElementById("nr-name")?.value || "").trim();
+  const short = (document.getElementById("nr-short")?.value || "").trim();
+  const iv = document.getElementById("nr-iv")?.value || "interview";
+  if(!name){ toast("Give the role a name."); document.getElementById("nr-name")?.focus(); return; }
+  const taken = id => HUB.roles.some(r => r.id === id) || HUB.pages.some(p => p.id === id) || HUB.teams.some(t => t.id === id) || ["home","more","leaders","access"].includes(id);
+  const base = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "role";
+  let id = base, k = 2; while(taken(id)) id = base + "-" + (k++);
+  const hub = JSON.parse(JSON.stringify(HUB));
+  hub.roles.push({ id, team: teamId, name, short: short || `${name} in ${teamName(teamId)}.`, status: "todo", phases: null, interview: iv,
+    kb: [{ bucket:"Foundations", about:"What this role is and how we do it at Harvest.", items:[] },
+         { bucket:"Our way of doing it", about:"The detail and the why behind each step.", items:[] },
+         { bucket:"Going further", about:"For volunteers who want to grow.", items:[] }],
+    fixes: [], updates: [], files: [], future: [], addedBy: cap.me || "" });
+  hub.lastUpdated = today();
+  await publishHub(hub, { view: id, tab: "interview", msg: `${name} added. Start the interview whenever you're ready.` });
+}
+function boxesChecked(kind, uid){
+  return [...document.querySelectorAll(`input[data-acc-kind="${kind}"][data-acc-user="${uid}"]`)].filter(b => b.checked).map(b => b.dataset.accTeam);
+}
+function setMemberTeams(uid){
+  if(!cap.isOwner || !MEMBERS[uid]) return;
+  const teams = boxesChecked("mem", uid);
+  MEMBERS[uid] = { ...MEMBERS[uid], teams };
+  queue("member/" + uid, () => cap.db.doc("members/" + uid).update({ teams }))
+    .then(() => toast(`Areas updated for ${memberName(uid)}`), () => toast("Couldn't save that change. Try again."));
+}
+async function accAction(el){
+  const act = el.dataset.acc; const uid = el.dataset.user;
+  if(act === "sync"){ fireSiteUpdate(true); return; }
+  if(act === "addrole-open"){ state.acc.addRole = el.dataset.team; render(); document.getElementById("nr-name")?.focus(); return; }
+  if(act === "addrole-cancel"){ state.acc.addRole = null; render(); return; }
+  if(act === "addrole-save"){ if(!canManageTeam(el.dataset.team) || !cap.canPublish) return; el.disabled = true; await addRole(el.dataset.team); el.disabled = false; return; }
+  if(act === "request"){
+    const name = (document.getElementById("acc-name")?.value || "").trim();
+    if(!name){ toast("Type your name first."); document.getElementById("acc-name")?.focus(); return; }
+    el.disabled = true;
+    try{ await cap.db.doc("requests/" + cap.me).set({ name, at: nowIso() }); MYREQ = { name, at: nowIso() }; render(); }
+    catch(e){ el.disabled = false; toast("Couldn't send that. Check that Andrew has invited you as an Editor, then try again."); }
+    return;
+  }
+  if(!cap.isOwner || !uid) return;
+  if(act === "approve"){
+    const teams = boxesChecked("req", uid);
+    if(!teams.length){ toast("Tick at least one area first."); return; }
+    el.disabled = true;
+    const label = (REQUESTS[uid] && REQUESTS[uid].name) || "";
+    try{
+      await cap.db.doc("members/" + uid).set({ teams, label, addedAt: nowIso() });
+      await cap.db.doc("requests/" + uid).delete();
+      toast(`${memberName(uid)} can now work on ${teams.map(teamName).join(", ")}`);
+    }catch(e){ el.disabled = false; toast("Couldn't save that. Try again."); }
+    return;
+  }
+  if(act === "decline"){
+    try{ await cap.db.doc("requests/" + uid).delete(); toast("Request declined"); }catch(e){ toast("Couldn't decline. Try again."); }
+    return;
+  }
+  if(act === "remove"){
+    if(!el.dataset.arm){ el.dataset.arm = "1"; el.textContent = "Tap again to remove"; setTimeout(() => { if(el.isConnected){ delete el.dataset.arm; el.textContent = "Remove access"; } }, 3000); return; }
+    try{ await cap.db.doc("members/" + uid).delete(); toast("Access removed"); }catch(e){ toast("Couldn't remove. Try again."); }
+  }
+}
+
+/* ---------- Start-up: light the features up when the platform answers ---------- */
+async function bootCapabilities(){
+  const use = n => (window.claude && typeof window.claude.use === "function") ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
+  const [sample, db, user, artifact, mcp] = await Promise.all([use("sample"), use("db"), use("user"), use("artifact"), use("mcp")]);
+  Object.assign(cap, { sample, db, user, artifact, mcp });
+  if(user){
+    cap.me = await user.id();
+    const w = await user.can("data.write");
+    cap.canWrite = w !== false;
+    cap.canPublish = !!artifact && await user.canEdit();
+    cap.isOwner = await user.isOwner();
+  }
+  state.canBuild = !!(db && cap.canWrite && cap.me);
+  if(!db || !cap.me){ cap.ready = true; render(); return; }
+  const onErr = () => {};
+  const ready = () => { if(!cap.ready){ cap.ready = true; applyWant(); } };
+  setTimeout(() => { if(!cap.ready){ ready(); render(); } }, 8000);
+  db.collection("members").onSnapshot(snap => {
+    for(const k of Object.keys(MEMBERS)) if(!snap.docs.some(d => d.id === k)) delete MEMBERS[k];
+    snap.docs.forEach(d => { if(d.exists) MEMBERS[d.id] = d.data(); });
+    ready(); refreshNames(); softRender();
+  }, () => { ready(); softRender(); });
+  if(state.canBuild){
+    db.doc("site/stamp").onSnapshot(d => { SITE.stamp = d.exists ? d.data() : null; maybeSyncSite(); softRender(); }, onErr);
+    db.doc("site/web").onSnapshot(d => { SITE.web = d.exists ? d.data() : null; softRender(); }, onErr);
+  }
+  if(cap.isOwner) db.collection("requests").onSnapshot(snap => {
+    for(const k of Object.keys(REQUESTS)) if(!snap.docs.some(d => d.id === k)) delete REQUESTS[k];
+    snap.docs.forEach(d => { if(d.exists) REQUESTS[d.id] = d.data(); });
+    refreshNames(); softRender();
+  }, onErr);
+  else db.doc("requests/" + cap.me).onSnapshot(d => { MYREQ = d.exists ? d.data() : null; softRender(); }, onErr);
+  db.collection("interviews").onSnapshot(snap => {
+    for(const k of Object.keys(IV)) if(!snap.docs.some(d => d.id === k)) delete IV[k];
+    snap.docs.forEach(d => { if(d.exists) IV[d.id] = d.data(); });
+    refreshNames(); softRender();
+  }, onErr);
+  db.collection("drafts").onSnapshot(snap => {
+    snap.docs.forEach(d => { if(d.exists) DRAFTS[d.id] = d.data(); });
+    refreshNames(); softRender();
+  }, onErr);
+  render();
+}
+
+function startApp(){
+  document.getElementById("root").innerHTML = SHELL;
+  let h = ""; try{ h = location.hash.slice(1) || (PUBLIC_COPY ? location.pathname.replace(/^\/+|\/+$/g, "").split("/").pop().replace(/\.html$/, "") : ""); }catch(e){}
+  if(h === "index") h = "";
+  state.view = h || "home";
+  let after = null; try{ after = JSON.parse(sessionStorage.getItem("hh:after") || "null"); sessionStorage.removeItem("hh:after"); }catch(e){}
+  state.justPublished = !!after;
+  if(after && after.view && (roleById(after.view) || HUB.teams.some(t => t.id === after.view))){ state.view = after.view; state.tab = after.tab || "checklist"; state.want = after; }
+  render();
+  if(after && after.msg) toast(after.msg);
+  bootCapabilities();
+}
+/* The volunteer website loads the latest content.json the sync task wrote; the embedded copy is the fallback. */
+if(PUBLIC_COPY && /^https?:$/.test(location.protocol)){
+  fetch("content.json?v=" + Date.now(), { cache: "no-store" })
+    .then(r => r.ok ? r.json() : null)
+    .then(h => { if(h && Array.isArray(h.roles) && Array.isArray(h.teams) && (!HUB.rev || !h.rev || h.rev >= HUB.rev)) HUB = h; })
+    .catch(() => {})
+    .finally(startApp);
+} else startApp();
+</script>
+</body></html>
