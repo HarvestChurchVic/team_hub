@@ -1,906 +1,4 @@
 {
- "church": "Harvest Church",
- "shareBase": "https://team.harvestchurch.org.au/",
- "lastUpdated": "2026-10-21",
- "values": "We serve so that nothing distracts from people meeting Jesus.",
- "teams": [
-  {
-   "id": "video",
-   "name": "Video & Screens",
-   "nav": "Video",
-   "blurb": "Livestream, switching and cameras."
-  },
-  {
-   "id": "production",
-   "name": "Production",
-   "nav": "Production",
-   "blurb": "Sound, lighting and screens: mixing the room and stream, lighting the stage and running ProPresenter."
-  },
-  {
-   "id": "worship",
-   "name": "Worship Team",
-   "nav": "Worship",
-   "blurb": "Musicians and vocalists leading the church in worship."
-  },
-  {
-   "id": "kids",
-   "name": "Harvest Kids",
-   "nav": "Kids",
-   "blurb": "Kids ministry: check-in, programs and keeping every child safe."
-  }
- ],
- "roles": [
-  {
-   "id": "switcher",
-   "team": "video",
-   "name": "Switcher & Livestream",
-   "short": "Cut the service and get it online. One person, one desk.",
-   "interview": "interview-switcher",
-   "status": "draft",
-   "reviewed": "2026-10-20",
-   "overview": "The Switcher & Livestream operator runs the ATEM switcher and the YouTube livestream from one desk. During the week you check who is on cameras. On Sunday you arrive by 9:00 to set up and rehearse, go live at 10:15, call the shots to the camera team on headsets and cut the service, then save everything, update YouTube and shut down. A win is a stream confirmed live in YouTube Studio before the service, cuts that follow the worship and the preacher, and a recording saved in vMix every week.",
-   "phases": {
-    "prep": [
-     {
-      "title": "Check who is on cameras",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Open the Services app in Planning Center and check who is rostered on cameras this Sunday.",
-       "Check in with the team during the week so everyone knows they're on."
-      ]
-     }
-    ],
-    "pre": [
-     {
-      "title": "Arrive and power up",
-      "by": "9:00",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "Arrive by 9:00."
-       },
-       {
-        "t": "Make sure the console power is on.",
-        "sub": [
-         "The Sound operator switches on the power for the whole console.",
-         "The ATEM Television Studio HD8 comes on with the console power."
-        ]
-       },
-       {
-        "t": "Turn on the computer."
-       },
-       {
-        "t": "Turn on the cameras."
-       },
-       {
-        "t": "Open ATEM Software Control (Blackmagic) and vMix."
-       }
-      ]
-     },
-     {
-      "title": "Restore the ATEM setup file",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "In ATEM Software Control, go to File > Restore."
-       },
-       {
-        "t": "Select the setup file. It is the only file in the folder.",
-        "sub": [
-         "File name: to be confirmed."
-        ],
-        "note": "The setup file holds the input mapping, so nothing needs remapping."
-       }
-      ]
-     },
-     {
-      "title": "Check every camera is live",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       {
-        "t": "The buttons on the HD8 are labelled. You switch using these buttons.",
-        "sub": [
-         "Front: main central camera",
-         "Back: left back angle, about 20 degrees",
-         "Roaming: the handheld camera",
-         "Drum cam: fixed",
-         "Keys cam: fixed"
-        ]
-       },
-       "On the ATEM multiview monitor, check every camera is showing a picture.",
-       {
-        "t": "In the vMix multiview, check the ATEM feed and the ProPresenter feed are both showing.",
-        "sub": [
-         "The ATEM comes into vMix over HDMI.",
-         "ProPresenter lyrics and overlays come into vMix over NDI with a transparent background, so they sit over the ATEM picture."
-        ]
-       },
-       {
-        "t": "If a camera is black, check its power and cables, then the cables at the ATEM. For Roaming, check the battery.",
-        "note": "See the troubleshooting guide: Camera is black on the multiview."
-       }
-      ]
-     },
-     {
-      "title": "Baptism Sundays: set up the tank camera",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "An extra NDI camera is mounted, focused on the baptism tank.",
-       "The camera team and the Switcher set it up together.",
-       "It comes into the ATEM through an NDI to SDI converter, so it is on the HD8 like the other cameras.",
-       "ProPresenter can also take it directly for the room screens."
-      ]
-     },
-     {
-      "title": "Rehearse",
-      "by": "9:45",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Rehearsal runs from 9:00 to 9:45.",
-       "Rehearse camera shots and timing with the camera operators.",
-       "Use the time for testing."
-      ]
-     },
-     {
-      "title": "Pre-service check-ins",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Camera operators: in place and ready to roll.",
-       {
-        "t": "Headsets: check every camera operator can hear you.",
-        "sub": [
-         "You call the cues during the service."
-        ]
-       },
-       {
-        "t": "Sound: check the stream audio is coming through. Listen on headphones.",
-        "sub": [
-         "Stream audio comes straight from the sound desk over Dante.",
-         "The Sound operator checks the levels. You listen on headphones as well."
-        ]
-       },
-       {
-        "t": "ProPresenter: check all the overlays are coming through in vMix.",
-        "sub": [
-         "The ProPresenter operator fires lyrics, lower thirds and overlays. The overlay channel in vMix stays on, so you don't need to do anything."
-        ]
-       }
-      ]
-     },
-     {
-      "title": "Go live and confirm on YouTube",
-      "by": "10:15",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "ProPresenter sends the welcome loop."
-       },
-       {
-        "t": "In vMix, click Stream.",
-        "sub": [
-         "We use the same stream key every week, so there's nothing to set up in YouTube first.",
-         "Stream settings are saved: 1080p, 30fps, 6500 kbps. Don't change them."
-        ]
-       },
-       {
-        "t": "On the same computer, open YouTube Studio and look for the live signal.",
-        "note": "This is the most important check of the day. Don't trust vMix alone. Confirm in YouTube Studio that the stream is live before the service starts."
-       }
-      ]
-     }
-    ],
-    "live": [
-     {
-      "title": "Countdown",
-      "by": "10:27",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "At 10:27 ProPresenter plays the countdown (ramp-up) video over the top."
-       },
-       {
-        "t": "Nothing to do while it plays. When ProPresenter clears it, your ATEM picture shows."
-       },
-       {
-        "t": "Have Front ready: medium close-up on the worship leader."
-       }
-      ]
-     },
-     {
-      "title": "Start recording",
-      "by": "10:30",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "At 10:30, click Record in vMix.",
-        "note": "Record every week. This is the step people forget."
-       }
-      ]
-     },
-     {
-      "title": "Opening shot",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "Hold Front on the worship leader, medium close-up, for 5 to 10 seconds."
-       },
-       {
-        "t": "Then move across to a wide shot or an instrument shot."
-       }
-      ]
-     },
-     {
-      "title": "Worship switching",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Cut every few seconds.",
-       "Cuts only. No fades or other transitions.",
-       "Feature instruments when they are soloing or prominent (Drum cam, Keys cam).",
-       "Use every camera, multiple times, with multiple shots from each. Call the shots to the camera operators on headsets."
-      ]
-     },
-     {
-      "title": "Sermon switching",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Use Front and Back.",
-       "Each shot stays up for at least 10 seconds and no longer than 45 seconds.",
-       {
-        "t": "Use Roaming occasionally.",
-        "sub": [
-         "Roaming shoots from the back, with a slight sideways move across the congregation's heads towards the preacher."
-        ]
-       }
-      ]
-     },
-     {
-      "title": "Videos and announcements",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "ProPresenter plays bumper and announcement videos full screen over the top in vMix.",
-       {
-        "t": "You don't need to do anything.",
-        "note": "If you have turned off the overlay channel in vMix, the videos won't show. Select it again."
-       }
-      ]
-     },
-     {
-      "title": "Baptisms and altar calls",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Baptisms: you have two options, the tank camera and Roaming.",
-       "Altar calls: try not to film people being prayed for.",
-       {
-        "t": "Extended altar call: end the livestream.",
-        "note": "This is the only time we stop the stream during the service."
-       }
-      ]
-     },
-     {
-      "title": "Keep an eye on the stream",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Listen to the stream audio on headphones.",
-       "Watch vMix for any errors.",
-       "Check the stream health (stream quality) indicator in YouTube Studio.",
-       "To kill the ProPresenter graphics, deselect the overlay channel in vMix."
-      ]
-     }
-    ],
-    "down": [
-     {
-      "title": "End the stream",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "After the blessing, click the closing slide in the vMix inputs so it goes to the livestream.",
-        "sub": [
-         "How long the closing slide stays up: to be confirmed."
-        ]
-       },
-       {
-        "t": "Stop recording in vMix."
-       },
-       {
-        "t": "Stop streaming in vMix."
-       }
-      ]
-     },
-     {
-      "title": "Update the YouTube title and description",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "In YouTube Studio, open the live stream and choose edit title and description."
-       },
-       {
-        "t": "Add the sermon title and the speaker.",
-        "sub": [
-         "Post-production is handled separately. YouTube takes about 12 to 24 hours before the stream is ready for it."
-        ]
-       }
-      ]
-     },
-     {
-      "title": "Save and power down",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "Save the ATEM file before closing.",
-        "note": "Always save the ATEM file before you close ATEM Software Control."
-       },
-       {
-        "t": "Close vMix and ATEM Software Control."
-       },
-       {
-        "t": "Turn off the cameras."
-       },
-       {
-        "t": "Shut down the computer."
-       },
-       {
-        "t": "Put the Roaming camera battery on charge."
-       },
-       {
-        "t": "The Sound operator turns off the console power, which also turns off the HD8."
-       }
-      ]
-     }
-    ]
-   },
-   "kb": [
-    {
-     "bucket": "Foundations",
-     "about": "How cameras, graphics and sound reach the switcher and the stream.",
-     "items": []
-    },
-    {
-     "bucket": "Switching style",
-     "about": "When to cut, when to hold, and how we switch at Harvest.",
-     "items": []
-    },
-    {
-     "bucket": "Streaming",
-     "about": "Encoder settings, bitrate, stream audio and going live.",
-     "items": []
-    },
-    {
-     "bucket": "Common issues",
-     "about": "Lost signals, dropped streams and how to recover.",
-     "items": []
-    }
-   ],
-   "fixes": [
-    {
-     "title": "Camera is black on the multiview",
-     "when": "Use this when one of the cameras shows black on the ATEM or vMix multiview.",
-     "steps": [
-      "Check the camera is powered on.",
-      "Check the cables at the camera.",
-      "Check the cables at the ATEM end.",
-      "If it's Roaming, check the camera battery."
-     ],
-     "stuck": [
-      "Call the Team Leader."
-     ],
-     "video": null
-    },
-    {
-     "title": "Internet is down",
-     "when": "Use this when the internet drops and the stream can't go out.",
-     "steps": [
-      "There is no backup internet, so don't try to switch connections.",
-      "Make sure vMix is recording. If it isn't, click Record.",
-      "Carry on switching the service so the recording is complete."
-     ],
-     "stuck": [
-      "Call the Team Leader."
-     ],
-     "video": null
-    }
-   ],
-   "updates": [],
-   "rules": [
-    "Don't load a new setup file mid-service.",
-    "Don't try an untested transition. We use cuts only.",
-    "Don't update ATEM, vMix or computer software on a Sunday.",
-    "Don't change the stream settings or bitrate mid-stream.",
-    "Don't stop streaming in vMix during the service, except for an extended altar call.",
-    "Don't assume the stream is live without checking YouTube Studio.",
-    "Don't film people being prayed for at altar calls."
-   ],
-   "handoff": [
-    "The HD8 buttons are labelled, and the input mapping loads from the setup file.",
-    "Setup file: ATEM Software Control, File > Restore. It's the only file in the folder.",
-    "10:15: click Stream in vMix, then confirm it's live in YouTube Studio. 10:30: click Record.",
-    "No logins needed. YouTube Studio and vMix are already set up on the computer.",
-    "No backup internet. If it drops, keep recording in vMix.",
-    "The camera roster is in the Planning Center Services app.",
-    "Anything else: call the Team Leader."
-   ],
-   "files": [],
-   "future": [
-    "Name of the ATEM setup file",
-    "How long the closing slide stays up before stopping the stream",
-    "A Stream Deck for the switcher desk",
-    "Streaming to more platforms than YouTube",
-    "A better stream audio mix (it currently comes straight from the sound desk over Dante and needs remixing)",
-    "An online host for the YouTube chat",
-    "Backup internet",
-    "Tutorial videos for each task"
-   ],
-   "thanks": "Thank you for serving on Switcher & Livestream. You're the reason people at home, in hospital or away for the weekend can still be part of Sunday at Harvest."
-  },
-  {
-   "id": "cameras",
-   "team": "video",
-   "name": "Cameras",
-   "short": "Our two fixed cameras: matched, focused and framed.",
-   "status": "todo",
-   "phases": null,
-   "interview": "interview-cameras",
-   "kb": [
-    {
-     "bucket": "Foundations",
-     "about": "Camera positions and what each one is for.",
-     "items": []
-    },
-    {
-     "bucket": "Core concepts",
-     "about": "Exposure, white balance, focus, headroom and lead room.",
-     "items": []
-    },
-    {
-     "bucket": "Matching cameras",
-     "about": "Making every camera look the same when we cut between them.",
-     "items": []
-    },
-    {
-     "bucket": "Deep dive",
-     "about": "For volunteers who want to grow further.",
-     "items": []
-    }
-   ],
-   "fixes": [],
-   "updates": [],
-   "files": [],
-   "future": []
-  },
-  {
-   "id": "mobile",
-   "team": "video",
-   "name": "Mobile Camera",
-   "short": "The handheld camera: close-ups, crowd and special moments.",
-   "status": "todo",
-   "phases": null,
-   "interview": "interview-mobile",
-   "kb": [
-    {
-     "bucket": "Foundations",
-     "about": "The rig and how it reaches the switcher.",
-     "items": []
-    },
-    {
-     "bucket": "Handheld technique",
-     "about": "Holding steady without a gimbal: grip, stance, walking and resting.",
-     "items": []
-    },
-    {
-     "bucket": "Shot types",
-     "about": "Close-ups, pull-backs, crowd, musicians and special moments.",
-     "items": []
-    },
-    {
-     "bucket": "Deep dive",
-     "about": "For volunteers who want to grow further.",
-     "items": []
-    }
-   ],
-   "fixes": [],
-   "updates": [],
-   "files": [],
-   "future": []
-  },
-  {
-   "id": "sound",
-   "team": "production",
-   "name": "Sound",
-   "short": "Mix the room and the stream so every word is heard.",
-   "interview": "interview-sound",
-   "status": "sample",
-   "reviewed": "2026-10-20",
-   "overview": "The sound operator makes sure everyone in the room and online can clearly hear every word spoken and sung. You arrive before rehearsal to power up and line check, mix the band and speakers through the service, and shut the system down safely afterwards. A win on Sunday is a service where nobody notices the sound because it simply works.",
-   "phases": {
-    "pre": [
-     {
-      "title": "Power up the system",
-      "by": "",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "Switch on main power for the desk and stage boxes."
-       },
-       {
-        "t": "Turn on the mixing desk and the playback computer.",
-        "sub": [
-         "Wait for the desk to fully load its show file before touching faders."
-        ]
-       },
-       {
-        "t": "Turn on amps and powered speakers last.",
-        "note": "Speakers go on last and off first, so they never pop."
-       }
-      ]
-     },
-     {
-      "title": "Check batteries and wireless mics",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Put charged batteries in every handheld and headset mic.",
-       "Confirm each receiver shows signal and battery level.",
-       {
-        "t": "Swap any battery showing two bars or less.",
-        "note": "Low batteries rarely die in rehearsal. They die in the sermon."
-       }
-      ]
-     },
-     {
-      "title": "Line check every input",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "Ask each musician and vocalist to play or speak one at a time."
-       },
-       {
-        "t": "Confirm the signal lands on the correct channel and the label matches."
-       },
-       {
-        "t": "Note anything missing and fix it before rehearsal starts."
-       }
-      ]
-     },
-     {
-      "title": "Set gain",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "Have the person sing or play at their loudest normal level."
-       },
-       {
-        "t": "Raise the gain until the meter sits healthily without reaching the red.",
-        "note": "Set gain at rehearsal volume, not soundcheck politeness. People always get louder."
-       }
-      ]
-     },
-     {
-      "title": "Rehearsal mix and monitors",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Build a rough front-of-house mix while the band runs the set.",
-       "Check every musician is happy with what they hear before rehearsal ends.",
-       "Save the scene once rehearsal is done."
-      ]
-     }
-    ],
-    "live": [
-     {
-      "title": "Before the countdown",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Walk-in music playing at a comfortable level.",
-       "Host and pastor mics on, checked and muted until needed.",
-       "Band channels ready for the opening song."
-      ]
-     },
-     {
-      "title": "Quick mixing reminders",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Vocals sit on top of the band. Words matter most.",
-       "Watch the stage, not just the desk. Unmute before someone speaks, not after.",
-       {
-        "t": "Keep an eye on the stream mix as well as the room.",
-        "note": "The room is loud. The stream only hears the desk."
-       }
-      ]
-     },
-     {
-      "title": "Hand-overs between service moments",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "Worship to host: bring up the host mic as the last song ends."
-       },
-       {
-        "t": "Host to sermon: bring up the pastor's mic and pull down band channels."
-       },
-       {
-        "t": "Sermon to response: bring the band back in gently as they start."
-       }
-      ]
-     }
-    ],
-    "down": [
-     {
-      "title": "Power down in order",
-      "ordered": true,
-      "video": null,
-      "steps": [
-       {
-        "t": "Turn off amps and powered speakers first."
-       },
-       {
-        "t": "Shut down the playback computer and the desk."
-       },
-       {
-        "t": "Switch off main power last.",
-        "note": "This is the start-up order in reverse."
-       }
-      ]
-     },
-     {
-      "title": "Pack away mics and batteries",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Return every wireless mic to its home.",
-       "Put used batteries on charge.",
-       "Coil cables over-under and put them away."
-      ]
-     },
-     {
-      "title": "Report anything that went wrong",
-      "ordered": false,
-      "video": null,
-      "steps": [
-       "Tell your team leader about any issue before you leave.",
-       "If you fixed something new, record a quick phone video of how, so it can become a troubleshooting guide."
-      ]
-     }
-    ]
-   },
-   "kb": [
-    {
-     "bucket": "Foundations",
-     "about": "What this role is and how our system fits together.",
-     "items": []
-    },
-    {
-     "bucket": "Core concepts",
-     "about": "Gain staging, EQ, compression, low-cut filters.",
-     "items": []
-    },
-    {
-     "bucket": "Our setup",
-     "about": "Our desk, our patch, our way of mixing.",
-     "items": []
-    },
-    {
-     "bucket": "Deep dive",
-     "about": "For volunteers who want to grow further.",
-     "items": []
-    }
-   ],
-   "fixes": [
-    {
-     "title": "Wireless mic has no sound",
-     "when": "Use this when a wireless mic is switched on but nothing comes through the speakers.",
-     "steps": [
-      "Check the mute switch on the mic itself.",
-      "Check the battery level on the mic and the receiver.",
-      "Make sure the receiver shows a signal.",
-      "Check the channel is unmuted and the fader is up on the desk.",
-      "Swap to the backup mic and sort the first one after the service."
-     ],
-     "stuck": [
-      "Hand the speaker a wired mic.",
-      "Grab the Media team leader."
-     ],
-     "video": null
-    }
-   ],
-   "updates": [
-    {
-     "id": "sound-2026-sample",
-     "date": "2026-10-20",
-     "title": "Sample update to show the format",
-     "big": "In short, this is how a change will look when we make one. Most of what you do stays the same.",
-     "same": [
-      "Start-up and shut-down order",
-      "How you set gain"
-     ],
-     "different": [
-      "Updates will appear here with a short video explaining why"
-     ],
-     "starts": "This starts next Sunday."
-    }
-   ],
-   "rules": [
-    "Don't power speakers on before the desk, or off after it.",
-    "Don't save over the master show file during a service."
-   ],
-   "handoff": [
-    "Which show file to load",
-    "Start-up and shut-down order (above)",
-    "Who to call: the Media team leader"
-   ],
-   "files": [],
-   "future": [
-    "Photos of the desk and stage boxes so new volunteers know what they are looking for"
-   ],
-   "thanks": "Thank you for serving on sound. When it goes well nobody notices, but we do. You help hundreds of people hear the message clearly every week."
-  },
-  {
-   "id": "lighting",
-   "team": "production",
-   "name": "Lighting",
-   "short": "Set the room for worship and the word.",
-   "status": "todo",
-   "phases": null,
-   "kb": [
-    {
-     "bucket": "Foundations",
-     "about": "Our lights and what each scene is for.",
-     "items": []
-    },
-    {
-     "bucket": "Core concepts",
-     "about": "Scenes, cues and lighting for camera.",
-     "items": []
-    }
-   ],
-   "fixes": [],
-   "updates": [],
-   "files": [],
-   "future": []
-  },
-  {
-   "id": "propresenter",
-   "team": "production",
-   "name": "ProPresenter",
-   "short": "Lyrics, sermon slides and screens.",
-   "status": "todo",
-   "phases": null,
-   "interview": "interview-pp",
-   "kb": [
-    {
-     "bucket": "Foundations",
-     "about": "What the role is and how our screens are set up.",
-     "items": []
-    },
-    {
-     "bucket": "Importing & formatting",
-     "about": "Songs, sermon notes, announcements.",
-     "items": []
-    },
-    {
-     "bucket": "Stage screens",
-     "about": "What the band and speaker see.",
-     "items": []
-    },
-    {
-     "bucket": "Our workflow",
-     "about": "How we build each week's presentation.",
-     "items": []
-    }
-   ],
-   "fixes": [],
-   "updates": [],
-   "files": [],
-   "future": []
-  },
-  {
-   "id": "band",
-   "team": "worship",
-   "name": "Band",
-   "short": "Musicians: rehearsal to final song.",
-   "status": "todo",
-   "phases": null,
-   "kb": [
-    {
-     "bucket": "Foundations",
-     "about": "What we expect from musicians each week.",
-     "items": []
-    },
-    {
-     "bucket": "Charts & keys",
-     "about": "Where charts live and how we use them.",
-     "items": []
-    },
-    {
-     "bucket": "In-ears & monitoring",
-     "about": "Getting a mix you can play to.",
-     "items": []
-    }
-   ],
-   "fixes": [],
-   "updates": [],
-   "files": [],
-   "future": []
-  },
-  {
-   "id": "vocals",
-   "team": "worship",
-   "name": "Vocals",
-   "short": "Vocalists: prep, rehearsal and Sunday.",
-   "status": "todo",
-   "phases": null,
-   "kb": [
-    {
-     "bucket": "Foundations",
-     "about": "What we expect from vocalists each week.",
-     "items": []
-    },
-    {
-     "bucket": "Mic technique",
-     "about": "Distance, volume and handling.",
-     "items": []
-    },
-    {
-     "bucket": "Harmony parts",
-     "about": "Learning and singing parts.",
-     "items": []
-    }
-   ],
-   "fixes": [],
-   "updates": [],
-   "files": [],
-   "future": []
-  }
- ],
- "pages": [
-  {
-   "id": "startup",
-   "title": "Booth Startup & Shutdown",
-   "sub": "For midweek events: youth, small groups, meetings.",
-   "kind": "booth"
-  },
-  {
-   "id": "before",
-   "title": "Before Your First Sunday",
-   "sub": "Parking, arrival, who to find, what to wear.",
-   "kind": "before"
-  },
-  {
-   "id": "events",
-   "title": "Special Events",
-   "sub": "Baptisms, weddings, Christmas and Easter.",
-   "kind": "events"
-  },
-  {
-   "id": "join",
-   "title": "Joining the Team",
-   "sub": "How to get started on Media or Worship.",
-   "kind": "join"
-  }
- ],
  "before": [
   [
    "Arrival time",
@@ -927,6 +25,7 @@
    "Check Planning Center Services"
   ]
  ],
+ "church": "Harvest Church",
  "events": [
   {
    "name": "Baptisms",
@@ -945,6 +44,8 @@
    "note": "Extra services, run sheet and any special setup."
   }
  ],
+ "lastUpdated": "2026-10-21",
+ "leaderUrl": "https://claude.ai/artifact/G1HhfebrshPmCQdUrsXMA5",
  "links": [
   {
    "name": "Planning Center Services app",
@@ -952,7 +53,912 @@
    "url": "https://www.planningcenter.com/services"
   }
  ],
- "leaderUrl": "https://claude.ai/artifact/G1HhfebrshPmCQdUrsXMA5",
- "rev": "2026-10-21T02:40:00.000Z",
- "siteUrl": "https://team.harvestchurch.org.au/"
+ "pages": [
+  {
+   "id": "startup",
+   "kind": "booth",
+   "sub": "For midweek events: youth, small groups, meetings.",
+   "title": "Booth Startup & Shutdown"
+  },
+  {
+   "id": "before",
+   "kind": "before",
+   "sub": "Parking, arrival, who to find, what to wear.",
+   "title": "Before Your First Sunday"
+  },
+  {
+   "id": "events",
+   "kind": "events",
+   "sub": "Baptisms, weddings, Christmas and Easter.",
+   "title": "Special Events"
+  },
+  {
+   "id": "join",
+   "kind": "join",
+   "sub": "How to get started on Media or Worship.",
+   "title": "Joining the Team"
+  }
+ ],
+ "rev": "2026-10-21T03:45:00.000Z",
+ "roles": [
+  {
+   "files": [],
+   "fixes": [
+    {
+     "steps": [
+      "Check the camera is powered on.",
+      "Check the cables at the camera.",
+      "Check the cables at the ATEM end.",
+      "If it's Roaming, check the camera battery."
+     ],
+     "stuck": [
+      "Call the Team Leader."
+     ],
+     "title": "Camera is black on the multiview",
+     "video": null,
+     "when": "Use this when one of the cameras shows black on the ATEM or vMix multiview."
+    },
+    {
+     "steps": [
+      "There is no backup internet, so don't try to switch connections.",
+      "Make sure vMix is recording. If it isn't, click Record.",
+      "Carry on switching the service so the recording is complete."
+     ],
+     "stuck": [
+      "Call the Team Leader."
+     ],
+     "title": "Internet is down",
+     "video": null,
+     "when": "Use this when the internet drops and the stream can't go out."
+    }
+   ],
+   "future": [
+    "Name of the ATEM setup file",
+    "How long the closing slide stays up before stopping the stream",
+    "A Stream Deck for the switcher desk",
+    "Streaming to more platforms than YouTube",
+    "A better stream audio mix (it currently comes straight from the sound desk over Dante and needs remixing)",
+    "An online host for the YouTube chat",
+    "Backup internet",
+    "Tutorial videos for each task"
+   ],
+   "handoff": [
+    "The HD8 buttons are labelled, and the input mapping loads from the setup file.",
+    "Setup file: ATEM Software Control, File > Restore. It's the only file in the folder.",
+    "10:15: click Stream in vMix, then confirm it's live in YouTube Studio. 10:30: click Record.",
+    "No logins needed. YouTube Studio and vMix are already set up on the computer.",
+    "No backup internet. If it drops, keep recording in vMix.",
+    "The camera roster is in the Planning Center Services app.",
+    "Anything else: call the Team Leader."
+   ],
+   "id": "switcher",
+   "interview": "interview-switcher",
+   "kb": [
+    {
+     "about": "How cameras, graphics and sound reach the switcher and the stream.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "When to cut, when to hold, and how we switch at Harvest.",
+     "bucket": "Switching style",
+     "items": []
+    },
+    {
+     "about": "Encoder settings, bitrate, stream audio and going live.",
+     "bucket": "Streaming",
+     "items": []
+    },
+    {
+     "about": "Lost signals, dropped streams and how to recover.",
+     "bucket": "Common issues",
+     "items": []
+    }
+   ],
+   "name": "Switcher & Livestream",
+   "overview": "The Switcher & Livestream operator runs the ATEM switcher and the YouTube livestream from one desk. During the week you check who is on cameras. On Sunday you arrive by 9:00 to set up and rehearse, go live at 10:15, call the shots to the camera team on headsets and cut the service, then save everything, update YouTube and shut down. A win is a stream confirmed live in YouTube Studio before the service, cuts that follow the worship and the preacher, and a recording saved in vMix every week.",
+   "phases": {
+    "down": [
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "sub": [
+         "How long the closing slide stays up: to be confirmed."
+        ],
+        "t": "After the blessing, click the closing slide in the vMix inputs so it goes to the livestream."
+       },
+       {
+        "t": "Stop recording in vMix."
+       },
+       {
+        "t": "Stop streaming in vMix."
+       }
+      ],
+      "title": "End the stream",
+      "video": null
+     },
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "t": "In YouTube Studio, open the live stream and choose edit title and description."
+       },
+       {
+        "sub": [
+         "Post-production is handled separately. YouTube takes about 12 to 24 hours before the stream is ready for it."
+        ],
+        "t": "Add the sermon title and the speaker."
+       }
+      ],
+      "title": "Update the YouTube title and description",
+      "video": null
+     },
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "note": "Always save the ATEM file before you close ATEM Software Control.",
+        "t": "Save the ATEM file before closing."
+       },
+       {
+        "t": "Close vMix and ATEM Software Control."
+       },
+       {
+        "t": "Turn off the cameras."
+       },
+       {
+        "t": "Shut down the computer."
+       },
+       {
+        "t": "Put the Roaming camera battery on charge."
+       },
+       {
+        "t": "The Sound operator turns off the console power, which also turns off the HD8."
+       }
+      ],
+      "title": "Save and power down",
+      "video": null
+     }
+    ],
+    "live": [
+     {
+      "by": "10:27",
+      "ordered": true,
+      "steps": [
+       {
+        "t": "At 10:27 ProPresenter plays the countdown (ramp-up) video over the top."
+       },
+       {
+        "t": "Nothing to do while it plays. When ProPresenter clears it, your ATEM picture shows."
+       },
+       {
+        "t": "Have Front ready: medium close-up on the worship leader."
+       }
+      ],
+      "title": "Countdown",
+      "video": null
+     },
+     {
+      "by": "10:30",
+      "ordered": true,
+      "steps": [
+       {
+        "note": "Record every week. This is the step people forget.",
+        "t": "At 10:30, click Record in vMix."
+       }
+      ],
+      "title": "Start recording",
+      "video": null
+     },
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "t": "Hold Front on the worship leader, medium close-up, for 5 to 10 seconds."
+       },
+       {
+        "t": "Then move across to a wide shot or an instrument shot."
+       }
+      ],
+      "title": "Opening shot",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Cut every few seconds.",
+       "Cuts only. No fades or other transitions.",
+       "Feature instruments when they are soloing or prominent (Drum cam, Keys cam).",
+       "Use every camera, multiple times, with multiple shots from each. Call the shots to the camera operators on headsets."
+      ],
+      "title": "Worship switching",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Use Front and Back.",
+       "Each shot stays up for at least 10 seconds and no longer than 45 seconds.",
+       {
+        "sub": [
+         "Roaming shoots from the back, with a slight sideways move across the congregation's heads towards the preacher."
+        ],
+        "t": "Use Roaming occasionally."
+       }
+      ],
+      "title": "Sermon switching",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "ProPresenter plays bumper and announcement videos full screen over the top in vMix.",
+       {
+        "note": "If you have turned off the overlay channel in vMix, the videos won't show. Select it again.",
+        "t": "You don't need to do anything."
+       }
+      ],
+      "title": "Videos and announcements",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Baptisms: you have two options, the tank camera and Roaming.",
+       "Altar calls: try not to film people being prayed for.",
+       {
+        "note": "This is the only time we stop the stream during the service.",
+        "t": "Extended altar call: end the livestream."
+       }
+      ],
+      "title": "Baptisms and altar calls",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Listen to the stream audio on headphones.",
+       "Watch vMix for any errors.",
+       "Check the stream health (stream quality) indicator in YouTube Studio.",
+       "To kill the ProPresenter graphics, deselect the overlay channel in vMix."
+      ],
+      "title": "Keep an eye on the stream",
+      "video": null
+     }
+    ],
+    "pre": [
+     {
+      "by": "9:00",
+      "ordered": true,
+      "steps": [
+       {
+        "t": "Arrive by 9:00."
+       },
+       {
+        "sub": [
+         "The Sound operator switches on the power for the whole console.",
+         "The ATEM Television Studio HD8 comes on with the console power."
+        ],
+        "t": "Make sure the console power is on."
+       },
+       {
+        "t": "Turn on the computer."
+       },
+       {
+        "t": "Turn on the cameras."
+       },
+       {
+        "t": "Open ATEM Software Control (Blackmagic) and vMix."
+       }
+      ],
+      "title": "Arrive and power up",
+      "video": null
+     },
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "t": "In ATEM Software Control, go to File > Restore."
+       },
+       {
+        "note": "The setup file holds the input mapping, so nothing needs remapping.",
+        "sub": [
+         "File name: to be confirmed."
+        ],
+        "t": "Select the setup file. It is the only file in the folder."
+       }
+      ],
+      "title": "Restore the ATEM setup file",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       {
+        "sub": [
+         "Front: main central camera",
+         "Back: left back angle, about 20 degrees",
+         "Roaming: the handheld camera",
+         "Drum cam: fixed",
+         "Keys cam: fixed"
+        ],
+        "t": "The buttons on the HD8 are labelled. You switch using these buttons."
+       },
+       "On the ATEM multiview monitor, check every camera is showing a picture.",
+       {
+        "sub": [
+         "The ATEM comes into vMix over HDMI.",
+         "ProPresenter lyrics and overlays come into vMix over NDI with a transparent background, so they sit over the ATEM picture."
+        ],
+        "t": "In the vMix multiview, check the ATEM feed and the ProPresenter feed are both showing."
+       },
+       {
+        "note": "See the troubleshooting guide: Camera is black on the multiview.",
+        "t": "If a camera is black, check its power and cables, then the cables at the ATEM. For Roaming, check the battery."
+       }
+      ],
+      "title": "Check every camera is live",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "An extra NDI camera is mounted, focused on the baptism tank.",
+       "The camera team and the Switcher set it up together.",
+       "It comes into the ATEM through an NDI to SDI converter, so it is on the HD8 like the other cameras.",
+       "ProPresenter can also take it directly for the room screens."
+      ],
+      "title": "Baptism Sundays: set up the tank camera",
+      "video": null
+     },
+     {
+      "by": "9:45",
+      "ordered": false,
+      "steps": [
+       "Rehearsal runs from 9:00 to 9:45.",
+       "Rehearse camera shots and timing with the camera operators.",
+       "Use the time for testing."
+      ],
+      "title": "Rehearse",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Camera operators: in place and ready to roll.",
+       {
+        "sub": [
+         "You call the cues during the service."
+        ],
+        "t": "Headsets: check every camera operator can hear you."
+       },
+       {
+        "sub": [
+         "Stream audio comes straight from the sound desk over Dante.",
+         "The Sound operator checks the levels. You listen on headphones as well."
+        ],
+        "t": "Sound: check the stream audio is coming through. Listen on headphones."
+       },
+       {
+        "sub": [
+         "The ProPresenter operator fires lyrics, lower thirds and overlays. The overlay channel in vMix stays on, so you don't need to do anything."
+        ],
+        "t": "ProPresenter: check all the overlays are coming through in vMix."
+       }
+      ],
+      "title": "Pre-service check-ins",
+      "video": null
+     },
+     {
+      "by": "10:15",
+      "ordered": true,
+      "steps": [
+       {
+        "t": "ProPresenter sends the welcome loop."
+       },
+       {
+        "sub": [
+         "We use the same stream key every week, so there's nothing to set up in YouTube first.",
+         "Stream settings are saved: 1080p, 30fps, 6500 kbps. Don't change them."
+        ],
+        "t": "In vMix, click Stream."
+       },
+       {
+        "note": "This is the most important check of the day. Don't trust vMix alone. Confirm in YouTube Studio that the stream is live before the service starts.",
+        "t": "On the same computer, open YouTube Studio and look for the live signal."
+       }
+      ],
+      "title": "Go live and confirm on YouTube",
+      "video": null
+     }
+    ],
+    "prep": [
+     {
+      "ordered": false,
+      "steps": [
+       "Open the Services app in Planning Center and check who is rostered on cameras this Sunday.",
+       "Check in with the team during the week so everyone knows they're on."
+      ],
+      "title": "Check who is on cameras",
+      "video": null
+     }
+    ]
+   },
+   "reviewed": "2026-10-20",
+   "rules": [
+    "Don't load a new setup file mid-service.",
+    "Don't try an untested transition. We use cuts only.",
+    "Don't update ATEM, vMix or computer software on a Sunday.",
+    "Don't change the stream settings or bitrate mid-stream.",
+    "Don't stop streaming in vMix during the service, except for an extended altar call.",
+    "Don't assume the stream is live without checking YouTube Studio.",
+    "Don't film people being prayed for at altar calls."
+   ],
+   "short": "Cut the service and get it online. One person, one desk.",
+   "status": "draft",
+   "team": "video",
+   "thanks": "Thank you for serving on Switcher & Livestream. You're the reason people at home, in hospital or away for the weekend can still be part of Sunday at Harvest.",
+   "updates": []
+  },
+  {
+   "files": [],
+   "fixes": [],
+   "future": [],
+   "id": "cameras",
+   "interview": "interview-cameras",
+   "kb": [
+    {
+     "about": "Camera positions and what each one is for.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "Exposure, white balance, focus, headroom and lead room.",
+     "bucket": "Core concepts",
+     "items": []
+    },
+    {
+     "about": "Making every camera look the same when we cut between them.",
+     "bucket": "Matching cameras",
+     "items": []
+    },
+    {
+     "about": "For volunteers who want to grow further.",
+     "bucket": "Deep dive",
+     "items": []
+    }
+   ],
+   "name": "Cameras",
+   "phases": null,
+   "short": "Our two fixed cameras: matched, focused and framed.",
+   "status": "todo",
+   "team": "video",
+   "updates": []
+  },
+  {
+   "files": [],
+   "fixes": [],
+   "future": [],
+   "id": "mobile",
+   "interview": "interview-mobile",
+   "kb": [
+    {
+     "about": "The rig and how it reaches the switcher.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "Holding steady without a gimbal: grip, stance, walking and resting.",
+     "bucket": "Handheld technique",
+     "items": []
+    },
+    {
+     "about": "Close-ups, pull-backs, crowd, musicians and special moments.",
+     "bucket": "Shot types",
+     "items": []
+    },
+    {
+     "about": "For volunteers who want to grow further.",
+     "bucket": "Deep dive",
+     "items": []
+    }
+   ],
+   "name": "Mobile Camera",
+   "phases": null,
+   "short": "The handheld camera: close-ups, crowd and special moments.",
+   "status": "todo",
+   "team": "video",
+   "updates": []
+  },
+  {
+   "files": [],
+   "fixes": [
+    {
+     "steps": [
+      "Check the mute switch on the mic itself.",
+      "Check the battery level on the mic and the receiver.",
+      "Make sure the receiver shows a signal.",
+      "Check the channel is unmuted and the fader is up on the desk.",
+      "Swap to the backup mic and sort the first one after the service."
+     ],
+     "stuck": [
+      "Hand the speaker a wired mic.",
+      "Grab the Media team leader."
+     ],
+     "title": "Wireless mic has no sound",
+     "video": null,
+     "when": "Use this when a wireless mic is switched on but nothing comes through the speakers."
+    }
+   ],
+   "future": [
+    "Photos of the desk and stage boxes so new volunteers know what they are looking for"
+   ],
+   "handoff": [
+    "Which show file to load",
+    "Start-up and shut-down order (above)",
+    "Who to call: the Media team leader"
+   ],
+   "id": "sound",
+   "interview": "interview-sound",
+   "kb": [
+    {
+     "about": "What this role is and how our system fits together.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "Gain staging, EQ, compression, low-cut filters.",
+     "bucket": "Core concepts",
+     "items": []
+    },
+    {
+     "about": "Our desk, our patch, our way of mixing.",
+     "bucket": "Our setup",
+     "items": []
+    },
+    {
+     "about": "For volunteers who want to grow further.",
+     "bucket": "Deep dive",
+     "items": []
+    }
+   ],
+   "name": "Sound",
+   "overview": "The sound operator makes sure everyone in the room and online can clearly hear every word spoken and sung. You arrive before rehearsal to power up and line check, mix the band and speakers through the service, and shut the system down safely afterwards. A win on Sunday is a service where nobody notices the sound because it simply works.",
+   "phases": {
+    "down": [
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "t": "Turn off amps and powered speakers first."
+       },
+       {
+        "t": "Shut down the playback computer and the desk."
+       },
+       {
+        "note": "This is the start-up order in reverse.",
+        "t": "Switch off main power last."
+       }
+      ],
+      "title": "Power down in order",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Return every wireless mic to its home.",
+       "Put used batteries on charge.",
+       "Coil cables over-under and put them away."
+      ],
+      "title": "Pack away mics and batteries",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Tell your team leader about any issue before you leave.",
+       "If you fixed something new, record a quick phone video of how, so it can become a troubleshooting guide."
+      ],
+      "title": "Report anything that went wrong",
+      "video": null
+     }
+    ],
+    "live": [
+     {
+      "ordered": false,
+      "steps": [
+       "Walk-in music playing at a comfortable level.",
+       "Host and pastor mics on, checked and muted until needed.",
+       "Band channels ready for the opening song."
+      ],
+      "title": "Before the countdown",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Vocals sit on top of the band. Words matter most.",
+       "Watch the stage, not just the desk. Unmute before someone speaks, not after.",
+       {
+        "note": "The room is loud. The stream only hears the desk.",
+        "t": "Keep an eye on the stream mix as well as the room."
+       }
+      ],
+      "title": "Quick mixing reminders",
+      "video": null
+     },
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "t": "Worship to host: bring up the host mic as the last song ends."
+       },
+       {
+        "t": "Host to sermon: bring up the pastor's mic and pull down band channels."
+       },
+       {
+        "t": "Sermon to response: bring the band back in gently as they start."
+       }
+      ],
+      "title": "Hand-overs between service moments",
+      "video": null
+     }
+    ],
+    "pre": [
+     {
+      "by": "",
+      "ordered": true,
+      "steps": [
+       {
+        "t": "Switch on main power for the desk and stage boxes."
+       },
+       {
+        "sub": [
+         "Wait for the desk to fully load its show file before touching faders."
+        ],
+        "t": "Turn on the mixing desk and the playback computer."
+       },
+       {
+        "note": "Speakers go on last and off first, so they never pop.",
+        "t": "Turn on amps and powered speakers last."
+       }
+      ],
+      "title": "Power up the system",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Put charged batteries in every handheld and headset mic.",
+       "Confirm each receiver shows signal and battery level.",
+       {
+        "note": "Low batteries rarely die in rehearsal. They die in the sermon.",
+        "t": "Swap any battery showing two bars or less."
+       }
+      ],
+      "title": "Check batteries and wireless mics",
+      "video": null
+     },
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "t": "Ask each musician and vocalist to play or speak one at a time."
+       },
+       {
+        "t": "Confirm the signal lands on the correct channel and the label matches."
+       },
+       {
+        "t": "Note anything missing and fix it before rehearsal starts."
+       }
+      ],
+      "title": "Line check every input",
+      "video": null
+     },
+     {
+      "ordered": true,
+      "steps": [
+       {
+        "t": "Have the person sing or play at their loudest normal level."
+       },
+       {
+        "note": "Set gain at rehearsal volume, not soundcheck politeness. People always get louder.",
+        "t": "Raise the gain until the meter sits healthily without reaching the red."
+       }
+      ],
+      "title": "Set gain",
+      "video": null
+     },
+     {
+      "ordered": false,
+      "steps": [
+       "Build a rough front-of-house mix while the band runs the set.",
+       "Check every musician is happy with what they hear before rehearsal ends.",
+       "Save the scene once rehearsal is done."
+      ],
+      "title": "Rehearsal mix and monitors",
+      "video": null
+     }
+    ]
+   },
+   "reviewed": "2026-10-20",
+   "rules": [
+    "Don't power speakers on before the desk, or off after it.",
+    "Don't save over the master show file during a service."
+   ],
+   "short": "Mix the room and the stream so every word is heard.",
+   "status": "sample",
+   "team": "production",
+   "thanks": "Thank you for serving on sound. When it goes well nobody notices, but we do. You help hundreds of people hear the message clearly every week.",
+   "updates": [
+    {
+     "big": "In short, this is how a change will look when we make one. Most of what you do stays the same.",
+     "date": "2026-10-20",
+     "different": [
+      "Updates will appear here with a short video explaining why"
+     ],
+     "id": "sound-2026-sample",
+     "same": [
+      "Start-up and shut-down order",
+      "How you set gain"
+     ],
+     "starts": "This starts next Sunday.",
+     "title": "Sample update to show the format"
+    }
+   ]
+  },
+  {
+   "files": [],
+   "fixes": [],
+   "future": [],
+   "id": "lighting",
+   "kb": [
+    {
+     "about": "Our lights and what each scene is for.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "Scenes, cues and lighting for camera.",
+     "bucket": "Core concepts",
+     "items": []
+    }
+   ],
+   "name": "Lighting",
+   "phases": null,
+   "short": "Set the room for worship and the word.",
+   "status": "todo",
+   "team": "production",
+   "updates": []
+  },
+  {
+   "files": [],
+   "fixes": [],
+   "future": [],
+   "id": "propresenter",
+   "interview": "interview-pp",
+   "kb": [
+    {
+     "about": "What the role is and how our screens are set up.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "Songs, sermon notes, announcements.",
+     "bucket": "Importing & formatting",
+     "items": []
+    },
+    {
+     "about": "What the band and speaker see.",
+     "bucket": "Stage screens",
+     "items": []
+    },
+    {
+     "about": "How we build each week's presentation.",
+     "bucket": "Our workflow",
+     "items": []
+    }
+   ],
+   "name": "ProPresenter",
+   "phases": null,
+   "short": "Lyrics, sermon slides and screens.",
+   "status": "todo",
+   "team": "production",
+   "updates": []
+  },
+  {
+   "files": [],
+   "fixes": [],
+   "future": [],
+   "id": "band",
+   "kb": [
+    {
+     "about": "What we expect from musicians each week.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "Where charts live and how we use them.",
+     "bucket": "Charts & keys",
+     "items": []
+    },
+    {
+     "about": "Getting a mix you can play to.",
+     "bucket": "In-ears & monitoring",
+     "items": []
+    }
+   ],
+   "name": "Band",
+   "phases": null,
+   "short": "Musicians: rehearsal to final song.",
+   "status": "todo",
+   "team": "worship",
+   "updates": []
+  },
+  {
+   "files": [],
+   "fixes": [],
+   "future": [],
+   "id": "vocals",
+   "kb": [
+    {
+     "about": "What we expect from vocalists each week.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "Distance, volume and handling.",
+     "bucket": "Mic technique",
+     "items": []
+    },
+    {
+     "about": "Learning and singing parts.",
+     "bucket": "Harmony parts",
+     "items": []
+    }
+   ],
+   "name": "Vocals",
+   "phases": null,
+   "short": "Vocalists: prep, rehearsal and Sunday.",
+   "status": "todo",
+   "team": "worship",
+   "updates": []
+  }
+ ],
+ "shareBase": "https://team.harvestchurch.org.au/",
+ "siteUrl": "https://team.harvestchurch.org.au/",
+ "teams": [
+  {
+   "blurb": "Livestream, switching and cameras.",
+   "id": "video",
+   "name": "Video & Screens",
+   "nav": "Video"
+  },
+  {
+   "blurb": "Sound, lighting and screens: mixing the room and stream, lighting the stage and running ProPresenter.",
+   "id": "production",
+   "name": "Production",
+   "nav": "Production"
+  },
+  {
+   "blurb": "Musicians and vocalists leading the church in worship.",
+   "id": "worship",
+   "name": "Worship Team",
+   "nav": "Worship"
+  },
+  {
+   "blurb": "Kids ministry: check-in, programs and keeping every child safe.",
+   "id": "kids",
+   "name": "Harvest Kids",
+   "nav": "Kids"
+  },
+  {
+   "blurb": "Capturing services and church life for our socials, website and story.",
+   "id": "photo",
+   "name": "Photography",
+   "nav": "Photos"
+  }
+ ],
+ "values": "We serve so that nothing distracts from people meeting Jesus."
 }
