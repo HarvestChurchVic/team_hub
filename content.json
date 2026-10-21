@@ -79,7 +79,7 @@
    "title": "Joining the Team"
   }
  ],
- "rev": "2026-10-21T03:45:00.000Z",
+ "rev": "2026-10-21T10:02:29.031Z",
  "roles": [
   {
    "files": [],
@@ -923,6 +923,37 @@
    "short": "Vocalists: prep, rehearsal and Sunday.",
    "status": "todo",
    "team": "worship",
+   "updates": []
+  },
+  {
+   "addedBy": "u_PYB1PgEbLhTFFNY5TV6k9A",
+   "files": [],
+   "fixes": [],
+   "future": [],
+   "id": "dreamers-room-leader",
+   "interview": "interview-kids",
+   "kb": [
+    {
+     "about": "What this role is and how we do it at Harvest.",
+     "bucket": "Foundations",
+     "items": []
+    },
+    {
+     "about": "The detail and the why behind each step.",
+     "bucket": "Our way of doing it",
+     "items": []
+    },
+    {
+     "about": "For volunteers who want to grow.",
+     "bucket": "Going further",
+     "items": []
+    }
+   ],
+   "name": "Dreamers Room Leader",
+   "phases": null,
+   "short": "Lead the Dreamers Room on a Sunday",
+   "status": "todo",
+   "team": "kids",
    "updates": []
   }
  ],
